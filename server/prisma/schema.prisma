@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  fullName   String    @map("full_name")
+  email      String    @unique
+  password   String
+  companyId  Int
+  company    Company   @relation(fields: [companyId], references: [id])
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+}
+
+model Company {
+  id         Int       @id @default(autoincrement())
+  name       String
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  users      User[]
+  members    Member[]
+  jobTitles  JobTitle[]
+  sprints    Sprint[]
+}
+
+model Member {
+  id         Int       @id @default(autoincrement())
+  fullName   String    @map("full_name")
+  jobTitleId Int
+  companyId  Int
+  jobTitle   JobTitle  @relation(fields: [jobTitleId], references: [id])
+  company    Company   @relation(fields: [companyId], references: [id])
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  issues     Issue[]
+}
+
+model JobTitle {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  description String?
+  companyId  Int
+  company    Company   @relation(fields: [companyId], references: [id])
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  members    Member[]
+}
+
+model Sprint {
+  id         Int       @id @default(autoincrement())
+  name       String
+  startDate  DateTime  @map("start_date")
+  endDate    DateTime  @map("end_date")
+  description String?
+  companyId  Int
+  company    Company   @relation(fields: [companyId], references: [id])
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  issues     SprintTask[]
+}
+
+model Issue {
+  id              Int       @id @default(autoincrement())
+  name            String
+  description     String?
+  originalEstimate Int      @map("original_estimate")
+  remainingTime   Int       @map("remaining_time")
+  spentTime       Int       @map("spent_time")
+  status          String    @map("status")
+  type            String    @map("type")
+  memberId        Int
+  parentIssueId   Int?      @map("parent_issue_id")
+  member          Member    @relation(fields: [memberId], references: [id])
+  parentIssue     Issue?    @relation("ParentIssue", fields: [parentIssueId], references: [id])
+  subIssues       Issue[]   @relation("ParentIssue")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  timeLogs        TimeLog[]
+  sprints         SprintTask[]
+}
+
+model TimeLog {
+  id            Int       @id @default(autoincrement())
+  issueId       Int
+  spentTime     Int       @map("spent_time")
+  remainingTime Int       @map("remaining_time")
+  logDate       DateTime  @map("log_date")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  issue         Issue     @relation(fields: [issueId], references: [id])
+}
+
+model SprintTask {
+  id        Int      @id @default(autoincrement())
+  sprintId  Int
+  issueId   Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  sprint    Sprint   @relation(fields: [sprintId], references: [id])
+  issue     Issue    @relation(fields: [issueId], references: [id])
+}

@@ -1,0 +1,14 @@
+{
+    "Login": "Login",
+    "Password": "Password",
+    "Do not have an account?": "Do not have an account?",
+    "Enter your email below to login to your account": "Enter your email below to login to your account",
+    "Sign up": "Sign up",
+    "validation": {
+        "required": "This field is required",
+        "email": "Invalid email",
+        "password": "Password must be at least 6 characters",
+        "min": "Minimum value is {min}",
+        "max": "Maximum value is {max}"
+    }
+}
