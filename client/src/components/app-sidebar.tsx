@@ -1,4 +1,4 @@
-import {type SidebarGroup as SidebarGroupType} from '@/config/sidebar'
+import { type SidebarGroup as SidebarGroupType } from "@/config/sidebar";
 import {
     Sidebar as SidebarContainer,
     SidebarContent,
@@ -10,17 +10,19 @@ import {
     SidebarMenuButton,
     SidebarMenuButtonContent,
     SidebarMenuItem,
-} from '@/components/ui/sidebar'
-import {type ReactNode} from 'react'
-import {t} from 'i18next'
+    SidebarFooter,
+} from "@/components/ui/sidebar";
+import { type ReactNode } from "react";
+import { t } from "i18next";
+import { useAuth } from "@/hooks/useAuth.ts";
 
 interface SidebarProps {
-    groups: SidebarGroupType[]
-  children?: ReactNode
+    groups: SidebarGroupType[];
+    children?: ReactNode;
 }
 
 export function Sidebar({ groups, children }: SidebarProps) {
-
+    const { onLogout } = useAuth();
     return (
         <SidebarContainer>
             <SidebarHeader>
@@ -35,7 +37,9 @@ export function Sidebar({ groups, children }: SidebarProps) {
                                 {group.items.map((item) => (
                                     <SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton>
-                                            <SidebarMenuButtonContent {...item} />
+                                            <SidebarMenuButtonContent
+                                                {...item}
+                                            />
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
                                 ))}
@@ -45,6 +49,14 @@ export function Sidebar({ groups, children }: SidebarProps) {
                 ))}
             </SidebarContent>
             {children}
+            <SidebarFooter>
+                <SidebarContent>
+                    {/* We can add the avatar, user name, and user email here, but we need to update (or rewrite) the backend response. */}
+                    <SidebarMenuButton onClick={onLogout}>
+                        <span>{t("Logout")}</span>
+                    </SidebarMenuButton>
+                </SidebarContent>
+            </SidebarFooter>
         </SidebarContainer>
-    )
+    );
 }

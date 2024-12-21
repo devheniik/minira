@@ -1,7 +1,7 @@
-import React from 'react'
-import { FormProvider, UseFormReturn } from 'react-hook-form'
+import React from "react";
+import { FormProvider, UseFormReturn } from "react-hook-form";
 // @ts-expect-error - required for the type to be found
-import {FieldValues} from 'react-hook-form/dist/types/fields'
+import { FieldValues } from "node_modules/react-hook-form/dist/types/fields";
 
 type ValidationFormProps<TFieldValues extends FieldValues = FieldValues> = {
     form: UseFormReturn<TFieldValues>;
@@ -18,11 +18,15 @@ const ValidationForm = <TFieldValues extends FieldValues = FieldValues>({
 }: ValidationFormProps<TFieldValues>) => {
     return (
         <FormProvider {...form}>
-            <form noValidate onSubmit={form.handleSubmit(onSubmit)} className={className}>
+            <form
+                noValidate
+                onSubmit={form.handleSubmit(onSubmit)}
+                className={className}
+            >
                 {children}
             </form>
         </FormProvider>
-    )
-}
+    );
+};
 
-export default ValidationForm
+export default ValidationForm;
