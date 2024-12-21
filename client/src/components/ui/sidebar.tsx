@@ -12,7 +12,7 @@ import {Skeleton} from '@/components/ui/skeleton'
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,} from '@/components/ui/tooltip'
 import {Icon} from '@/components/wrappers/Icon.tsx'
 import {t} from 'i18next'
-import {useMatch} from 'react-router-dom'
+import {Link, useMatch} from 'react-router'
 
 const SIDEBAR_COOKIE_NAME = 'sidebar:state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -739,12 +739,12 @@ export const SidebarMenuButtonContent = (props: {
 
     return (
         <>
-            <a href={props.route} className={cn('flex flex-row space-x-2', {
+            <Link to={`/${props.route}`} className={cn('flex flex-row space-x-2', {
                 'font-bold': match
             })}>
                 <Icon name={props.icon} size={16}/>
                 <span>{t(props.title)}</span>
-            </a>
+            </Link>
         </>
     )
 }

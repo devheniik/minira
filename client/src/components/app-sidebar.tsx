@@ -28,7 +28,7 @@ export function Sidebar({ groups, children }: SidebarProps) {
             </SidebarHeader>
             <SidebarContent>
                 {groups.map((group) => (
-                    <SidebarGroup>
+                    <SidebarGroup key={group.title}>
                         <SidebarGroupLabel>{t(group.title)}</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>

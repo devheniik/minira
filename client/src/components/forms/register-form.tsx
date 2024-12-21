@@ -1,22 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { Button } from "@/components/ui/button.tsx";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { useTranslation } from "react-i18next";
+import {Link, useNavigate} from "react-router-dom";
+import {useState} from "react";
+import {Button} from "@/components/ui/button.tsx";
+import {Card, CardContent, CardHeader, CardTitle,} from "@/components/ui/card.tsx";
+import {Input} from "@/components/ui/input.tsx";
+import {useTranslation} from "react-i18next";
 import ValidationFormField from "@/components/validation/validation-form-field.tsx";
 import ValidationForm from "@/components/validation/validation-form.tsx";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { zh } from "@/lib/zod.helper.ts";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useForm} from "react-hook-form";
+import {zh} from "@/lib/zod.helper.ts";
 import * as z from "zod";
-import { useAuth } from "@/context/AuthContext";
-import { useMutation } from "@tanstack/react-query";
+import {useMutation} from "@tanstack/react-query";
+import {useAuth} from "@/hooks/useAuth.ts";
 
 const registerFormSchema = z
     .object({
@@ -48,7 +43,7 @@ export function RegisterForm() {
         },
     });
 
-    const { onRegister } = useAuth();
+    const { onRegister } = useAuth()
     const navigate = useNavigate();
 
     const { mutate: onSubmit, isPending } = useMutation({

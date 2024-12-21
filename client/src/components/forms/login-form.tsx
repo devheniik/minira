@@ -1,23 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
-
-import { Button } from "@/components/ui/button.tsx";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { useTranslation } from "react-i18next";
+import {Link, useNavigate} from "react-router";
+import {Button} from "@/components/ui/button.tsx";
+import {Card, CardContent, CardHeader, CardTitle,} from "@/components/ui/card.tsx";
+import {Input} from "@/components/ui/input.tsx";
+import {useTranslation} from "react-i18next";
 import ValidationFormField from "@/components/validation/validation-form-field.tsx";
 import ValidationForm from "@/components/validation/validation-form.tsx";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { zh } from "@/lib/zod.helper.ts";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useForm} from "react-hook-form";
+import {zh} from "@/lib/zod.helper.ts";
 import * as z from "zod";
-import { useAuth } from "@/context/AuthContext";
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import {useMutation} from "@tanstack/react-query";
+import {useState} from "react";
+import {useAuth} from "@/hooks/useAuth.ts";
 
 const loginFormSchema = z.object({
     email: zh.min(1).max(255),
@@ -38,7 +32,7 @@ export function LoginForm() {
         },
     });
 
-    const { onLogin } = useAuth();
+    const { onLogin } = useAuth()
     const navigate = useNavigate();
 
     const { mutate: onSubmit, isPending } = useMutation({
