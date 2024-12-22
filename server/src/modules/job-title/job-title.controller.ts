@@ -14,6 +14,8 @@ import { UpdateJobTitleDto } from './dto/update-job-title.dto';
 import { User } from '../auth/user.decorator';
 import { User as UserEntity } from '.prisma/client';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { plainToInstance } from 'class-transformer';
+import { JobTitleTransformer } from './transformers/job-title.transformer';
 
 @Controller('job-title')
 export class JobTitleController {
@@ -34,7 +36,11 @@ export class JobTitleController {
     @Get()
     @UseGuards(JwtAuthGuard)
     findAll(@User() user: UserEntity) {
-        return this.jobTitleService.findByCompany(user.companyId);
+        const titles = this.jobTitleService.findByCompany(user.companyId);
+
+        return plainToInstance(JobTitleTransformer, titles, {
+            excludeExtraneousValues: true,
+        });
     }
 
     @Get(':id')

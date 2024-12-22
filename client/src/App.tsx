@@ -1,12 +1,12 @@
-import { AuthProvider } from "@/providers/AuthProvider";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router";
-import { AuthLayout } from "@/layouts/AuthLayout.tsx";
-import Dashboard from "@/views/Dashboard.tsx";
-import Users from "@/views/users/Users.tsx";
-import Settings from "@/views/Settings.tsx";
-import { LoginView } from "@/views/LoginView.tsx";
-import RegisterView from "@/views/RegisterView.tsx";
+import {AuthProvider} from "@/providers/auth-provider.tsx";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {BrowserRouter, Route, Routes} from "react-router";
+import {AuthLayout} from "@/layouts/AuthLayout.tsx";
+import Dashboard from "@/views/dashboard.tsx";
+import MembersView from "@/views/members/members-view.tsx";
+import Settings from "@/views/settings.tsx";
+import {LoginView} from "@/views/login/login-view.tsx";
+import RegisterView from "@/views/register/register-view.tsx";
 import RequireAuth from "@/components/auth/required-auth.tsx";
 
 const queryClient = new QueryClient();
@@ -38,10 +38,10 @@ function App() {
                                 }
                             />
                             <Route
-                                path="users"
+                                path="members"
                                 element={
                                     <RequireAuth>
-                                        <Users />
+                                        <MembersView />
                                     </RequireAuth>
                                 }
                             />

@@ -1,0 +1,1 @@
+export type DtoType<T> = Omit<T, keyof typeof Function.prototype>;

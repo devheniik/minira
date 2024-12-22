@@ -1,6 +1,6 @@
-// src/company/entities/company.entity.ts
+// src/company/transformers/company.entity.ts
 
-import {Company} from '@prisma/client';
+import { Company } from '@prisma/client';
 
 export class CompanyEntity implements Company {
     id: number;

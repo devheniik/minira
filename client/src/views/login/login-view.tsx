@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/forms/login-form";
+import {LoginForm} from "@/views/login/forms/login-form.tsx";
 
 export function LoginView() {
     return (

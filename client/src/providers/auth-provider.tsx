@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setLoading(true)
         try {
             const response = await axios.post(
-                `${import.meta.env.VITE_API_URL}auth/login`,
+                `auth/login`,
                 {
                     email,
                     password,
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         try {
             //TODO: change to auth/register
             const response = await axios.post(
-                `${import.meta.env.VITE_API_URL}users/register`,
+                `users/register`,
                 {
                     email,
                     password,

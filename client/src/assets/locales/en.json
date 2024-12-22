@@ -25,5 +25,8 @@
             "haveAccount": "Have account?",
             "haveNotAccount": "Have not account?"
         }
+    },
+    "custom-validation": {
+        "cannotBeEmpty": "Field cannot be empty"
     }
 }

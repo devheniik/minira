@@ -1,8 +1,23 @@
 import * as zod from 'zod'
-import { t } from 'i18next'
+import {t} from 'i18next'
 
 export abstract class zh {
     private static z = zod
+
+    public static string = () => {
+        return this.z.string()
+    }
+
+    public static number = () => {
+        return this.z.number()
+    }
+
+    public static id = () => {
+        // create id validator not allow 0
+        return this.z.number().min(1, {
+            message: t('custom-validation.cannotBeEmpty')
+        })
+    }
 
     public static min = (min: number) => {
         return this.z.string().min(min, {

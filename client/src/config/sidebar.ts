@@ -20,7 +20,7 @@ export const sidebarConfig: SidebarGroup[] = [
             },
             {
                 title: 'Users',
-                route: 'users',
+                route: 'members',
                 icon: 'user'
             },
             {
