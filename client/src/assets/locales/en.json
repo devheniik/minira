@@ -27,6 +27,7 @@
         }
     },
     "custom-validation": {
-        "cannotBeEmpty": "Field cannot be empty"
+        "cannotBeEmpty": "Field cannot be empty",
+        "required": "This field is required"
     }
 }

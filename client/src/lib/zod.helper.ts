@@ -1,33 +1,45 @@
-import * as zod from 'zod'
-import {t} from 'i18next'
+import * as zod from "zod";
+import { t } from "i18next";
 
 export abstract class zh {
-    private static z = zod
+    private static z = zod;
 
     public static string = () => {
-        return this.z.string()
-    }
+        return this.z.string();
+    };
 
     public static number = () => {
-        return this.z.number()
-    }
+        return this.z.number();
+    };
+
+    public static date = () => {
+        return this.z.string().refine(
+            (val) => {
+                const date = new Date(val);
+                return !isNaN(date.getTime());
+            },
+            {
+                message: t("custom-validation.required"),
+            },
+        );
+    };
 
     public static id = () => {
         // create id validator not allow 0
         return this.z.number().min(1, {
-            message: t('custom-validation.cannotBeEmpty')
-        })
-    }
+            message: t("custom-validation.cannotBeEmpty"),
+        });
+    };
 
     public static min = (min: number) => {
         return this.z.string().min(min, {
-            message: t('validation.min', { min })
-        })
-    }
+            message: t("validation.min", { min }),
+        });
+    };
 
     public static max = (max: number) => {
         return this.z.string().max(max, {
-            message: t('validation.max', { max })
-        })
-    }
+            message: t("validation.max", { max }),
+        });
+    };
 }

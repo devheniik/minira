@@ -1,11 +1,11 @@
-import {AuthProvider} from "@/providers/auth-provider.tsx";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import {BrowserRouter, Route, Routes} from "react-router";
-import {AuthLayout} from "@/layouts/AuthLayout.tsx";
+import { AuthProvider } from "@/providers/auth-provider.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { AuthLayout } from "@/layouts/AuthLayout.tsx";
 import Dashboard from "@/views/dashboard.tsx";
 import MembersView from "@/views/members/members-view.tsx";
-import Settings from "@/views/settings.tsx";
-import {LoginView} from "@/views/login/login-view.tsx";
+import SprintView from "@/views/sprint/sprint-view";
+import { LoginView } from "@/views/login/login-view.tsx";
 import RegisterView from "@/views/register/register-view.tsx";
 import RequireAuth from "@/components/auth/required-auth.tsx";
 
@@ -46,10 +46,10 @@ function App() {
                                 }
                             />
                             <Route
-                                path="settings"
+                                path="sprint"
                                 element={
                                     <RequireAuth>
-                                        <Settings />
+                                        <SprintView />
                                     </RequireAuth>
                                 }
                             />

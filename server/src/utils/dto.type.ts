@@ -1,1 +1,1 @@
-export type DtoType<T> = Omit<T, keyof typeof Function.prototype>;
+export type DtoType<T> = Omit<T, 'prototype'>;

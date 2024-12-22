@@ -1,31 +1,34 @@
 import MemberForm from "@/views/members/components/member-form.tsx";
-import {MemberDto} from "@minira/server";
-import {useUpdateMember} from "@/services/member.ts";
+import { MemberDto } from "@minira/server";
+import { useUpdateMember } from "@/services/member.ts";
 
-const MemberUpdate = (
-    {
-        member,
-        onSuccess,
-        onClose
-    }: {
-        member: MemberDto,
-        onSuccess: () => void
-        onClose?: () => void
-    }
-) => {
-
+const MemberUpdate = ({
+    member,
+    onSuccess,
+    onClose,
+}: {
+    member: MemberDto;
+    onSuccess: () => void;
+    onClose?: () => void;
+}) => {
     if (!onClose) {
-        onClose = onSuccess
+        onClose = onSuccess;
     }
 
-    const {
-        mutate: updateUser,
-        isPending
-    } = useUpdateMember(member.id, onSuccess)
+    const { mutate: updateUser, isPending } = useUpdateMember(
+        member.id,
+        onSuccess,
+    );
 
     return (
         <>
-            <MemberForm member={member} isPending={isPending} onSubmit={updateUser} onClose={onClose} />
+            <MemberForm
+                title="Update Member"
+                member={member}
+                isPending={isPending}
+                onSubmit={updateUser}
+                onClose={onClose}
+            />
         </>
     );
 };
