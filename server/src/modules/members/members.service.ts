@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { Member } from '@prisma/client';
 
 @Injectable()
 export class MembersService {
@@ -24,7 +25,7 @@ export class MembersService {
         });
     }
 
-    findOne(id: number) {
+    findOne(id: number): Promise<Member> {
         return this.prisma.member.findUnique({ where: { id } });
     }
 

@@ -16,6 +16,7 @@ import { User } from '../auth/user.decorator';
 import { User as UserEntity } from '.prisma/client';
 import { plainToInstance } from 'class-transformer';
 import { SprintTransformer } from './transformers/sprint.transformer';
+import { SprintViewTransformer } from './transformers/sprint-view.transformer';
 
 @Controller('sprint')
 export class SprintsController {
@@ -42,8 +43,14 @@ export class SprintsController {
 
     @Get(':id')
     @UseGuards(JwtAuthGuard)
-    findOne(@Param('id') id: string) {
-        return this.sprintsService.findOne(+id);
+    async findOne(@Param('id') id: string) {
+        const sprint = await this.sprintsService.findOne(+id);
+
+        console.log(sprint.issues);
+
+        return plainToInstance(SprintViewTransformer, sprint, {
+            excludeExtraneousValues: true,
+        });
     }
 
     @Patch(':id')

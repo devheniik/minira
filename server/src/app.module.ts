@@ -7,6 +7,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { JobTitleModule } from './modules/job-title/job-title.module';
 import { MembersModule } from './modules/members/members.module';
 import { SprintsModule } from './modules/sprints/sprints.module';
+import { IssueModule } from './modules/issue/issue.module';
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { SprintsModule } from './modules/sprints/sprints.module';
         JobTitleModule,
         MembersModule,
         SprintsModule,
+        IssueModule,
     ],
     controllers: [AppController],
     providers: [AppService],

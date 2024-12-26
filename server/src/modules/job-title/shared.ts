@@ -6,3 +6,8 @@ import { UpdateJobTitleDto as UpdateMemberDtoOriginal } from './dto/update-job-t
 export type JobTitleDto = DtoType<JobTitleTransformer>;
 export type CreateJobTitleDto = DtoType<CreateMemberDtoOriginal>;
 export type UpdateJobTitleDto = DtoType<UpdateMemberDtoOriginal>;
+
+const t: CreateJobTitleDto = {
+    name: '',
+    description: '',
+};

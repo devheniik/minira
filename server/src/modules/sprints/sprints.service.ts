@@ -22,7 +22,16 @@ export class SprintsService {
     }
 
     findOne(id: number) {
-        return this.prisma.sprint.findUnique({ where: { id } });
+        return this.prisma.sprint.findUnique({
+            where: { id },
+            include: {
+                issues: {
+                    include: {
+                        issue: true,
+                    },
+                },
+            },
+        });
     }
 
     update(id: number, updateSprintDto: UpdateSprintDto) {
