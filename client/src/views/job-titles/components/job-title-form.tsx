@@ -13,37 +13,36 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { zh } from "@/lib/zod.helper.ts";
-import JobTitleSelect from "@/views/members/components/job-title-select.tsx";
 
-const MemberFormSchema = z.object({
-    fullName: zh.min(2).max(255),
-    jobTitleId: zh.id(),
+const JobTitleFormSchema = z.object({
+    name: zh.min(2).max(255),
+    description: z.string().optional(),
 });
 
-const MemberEmptyForm = {
-    fullName: "",
-    jobTitleId: 0,
+const JobTitleEmptyForm = {
+    name: "",
+    description: "",
 };
 
-type MemberFormSchemaType = z.infer<typeof MemberFormSchema>;
+type JobTitleFormSchemaType = z.infer<typeof JobTitleFormSchema>;
 
-const MemberForm = <T extends MemberFormSchemaType>({
+const JobTitleForm = <T extends JobTitleFormSchemaType>({
     title = "Action",
-    member,
+    jobTitle,
     isPending,
     onSubmit,
     onClose,
 }: {
     title?: string;
-    member: T;
+    jobTitle: T;
     isPending: boolean;
     onSubmit: (data: T) => void;
     onClose: () => void;
 }) => {
     const { form, onOpenChange, onSubmitHandler } = useForm<
-        MemberFormSchemaType,
+        JobTitleFormSchemaType,
         T
-    >(member, MemberFormSchema, MemberEmptyForm, onClose, onSubmit);
+    >(jobTitle, JobTitleFormSchema, JobTitleEmptyForm, onClose, onSubmit);
 
     return (
         <Dialog open={true} onOpenChange={onOpenChange}>
@@ -58,12 +57,12 @@ const MemberForm = <T extends MemberFormSchemaType>({
                 >
                     <ValidationFormField
                         control={form.control}
-                        name="fullName"
+                        name="name"
                         label={t("Name")}
                         render={({ field }) => (
                             <Input
                                 id="name"
-                                placeholder={t("Bob")}
+                                placeholder={t("Manager")}
                                 className="col-span-3"
                                 {...field}
                             />
@@ -72,14 +71,13 @@ const MemberForm = <T extends MemberFormSchemaType>({
 
                     <ValidationFormField
                         control={form.control}
-                        name="jobTitleId"
-                        label={t("Job Title")}
+                        name="description"
+                        label={t("Description")}
                         render={({ field }) => (
-                            <JobTitleSelect
-                                onValueChange={
-                                    field.onChange as (value: number) => void
-                                }
-                                defaultValue={field.value}
+                            <Input
+                                id="description"
+                                placeholder={t("Enter description")}
+                                className="col-span-3"
                                 {...field}
                             />
                         )}
@@ -96,4 +94,4 @@ const MemberForm = <T extends MemberFormSchemaType>({
     );
 };
 
-export default MemberForm;
+export default JobTitleForm;

@@ -739,7 +739,7 @@ export const SidebarMenuButtonContent = (props: {
 
     return (
         <>
-            <Link to={`/${props.route}`} className={cn('flex flex-row space-x-2', {
+            <Link to={`/${props.route}`} className={cn('flex flex-row  items-center space-x-2', {
                 'font-bold': match
             })}>
                 <Icon name={props.icon} size={16}/>
@@ -748,6 +748,21 @@ export const SidebarMenuButtonContent = (props: {
         </>
     )
 }
+
+export const SidebarMenuButtonContentDiv = (props: {
+    title: string;
+    icon: string;
+}) => {
+    return (
+        <>
+            <div className={cn("flex flex-row  items-center space-x-2")}>
+                <Icon name={props.icon} size={16} />
+                <span>{t(props.title)}</span>
+            </div>
+        </>
+    );
+};
+
 
 SidebarMenuSubButton.displayName = 'SidebarMenuSubButton'
 

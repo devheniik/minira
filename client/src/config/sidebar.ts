@@ -5,29 +5,42 @@ export interface SidebarItem {
 }
 
 export interface SidebarGroup {
-    title: string;
     items: SidebarItem[];
 }
 
 export const sidebarConfig: SidebarGroup[] = [
     {
-        title: "Projects",
         items: [
             {
                 title: "Dashboard",
                 route: "dashboard",
-                icon: "home",
+                icon: "dashboard",
             },
             {
-                title: "Users",
+                title: "Sprints",
+                route: "sprints",
+                icon: "sprints",
+            },
+            {
+                title: "Members",
                 route: "members",
-                icon: "user",
+                icon: "members",
+            },
+            {
+                title: "Job Titles",
+                route: "job-titles",
+                icon: "job-titles",
             },
             {
                 title: "Settings",
-                route: "sprint",
-                icon: "home",
+                route: "settings",
+                icon: "settings",
             },
+            // {
+            //     title: "Log out",
+            //     route: "#",
+            //     icon: "log-out",
+            // },
         ],
     },
 ];

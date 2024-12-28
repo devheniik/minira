@@ -2,12 +2,13 @@ import { AuthProvider } from "@/providers/auth-provider.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { AuthLayout } from "@/layouts/AuthLayout.tsx";
-import Dashboard from "@/views/dashboard.tsx";
+import DashboardView from "@/views/dashboard/dashboard-view.tsx";
 import MembersView from "@/views/members/members-view.tsx";
 import SprintView from "@/views/sprint/sprint-view";
 import { LoginView } from "@/views/login/login-view.tsx";
 import RegisterView from "@/views/register/register-view.tsx";
 import RequireAuth from "@/components/auth/required-auth.tsx";
+import JobTitlesView from "./views/job-titles/job-titles-view";
 
 const queryClient = new QueryClient();
 
@@ -24,7 +25,7 @@ function App() {
                                 index
                                 element={
                                     <RequireAuth>
-                                        <Dashboard />
+                                        <DashboardView />
                                     </RequireAuth>
                                 }
                             />
@@ -33,7 +34,7 @@ function App() {
                                 path="dashboard"
                                 element={
                                     <RequireAuth>
-                                        <Dashboard />
+                                        <DashboardView />
                                     </RequireAuth>
                                 }
                             />
@@ -46,10 +47,18 @@ function App() {
                                 }
                             />
                             <Route
-                                path="sprint"
+                                path="sprints"
                                 element={
                                     <RequireAuth>
                                         <SprintView />
+                                    </RequireAuth>
+                                }
+                            />
+                            <Route
+                                path="job-titles"
+                                element={
+                                    <RequireAuth>
+                                        <JobTitlesView />
                                     </RequireAuth>
                                 }
                             />

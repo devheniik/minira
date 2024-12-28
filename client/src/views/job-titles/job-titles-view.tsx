@@ -1,25 +1,25 @@
-import { useDeleteSprint, useGetAllSprint } from "@/services/sprint.ts";
-import { SprintDto } from "@minira/server";
-import { useEntityActions } from "@/hooks/useEntityActions.ts";
-import SprintCard from "./components/sprint-card";
-import { Button } from "@/components/ui/button";
+import JobTitleCard from "./components/job-title-card.tsx";
+import { useDeleteJobTitle, useGetAllJobTitles } from "@/services/job-title.ts";
+import { JobTitleDto } from "@minira/server";
 import { t } from "i18next";
-import SprintCreate from "@/views/sprint/components/sprint-create";
-import SprintUpdate from "@/views/sprint/components/sprint-update";
+import JobTitleCreate from "@/views/job-titles/components/job-title-create.tsx";
+import JobTitleUpdate from "@/views/job-titles/components/job-title-update.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { useEntityActions } from "@/hooks/useEntityActions.ts";
 import CrossSvgComponent from "@/components/svg/CrossSvgComponent";
 import useConfirmDialog from "@/hooks/useConfirmDialog.tsx";
 
-const SprintView = () => {
+const JobTitlesView = () => {
     const { data, isPending, deleteEntity, onSuccess, entityManager } =
-        useEntityActions<SprintDto>({
-            useGetAll: useGetAllSprint,
-            useDelete: useDeleteSprint,
+        useEntityActions<JobTitleDto>({
+            useGetAll: useGetAllJobTitles,
+            useDelete: useDeleteJobTitle,
         });
 
     const { openConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
 
-    const handleDelete = (sprint: SprintDto) => {
-        openConfirmDialog(() => deleteEntity(sprint.id));
+    const handleDelete = (jobTitle: JobTitleDto) => {
+        openConfirmDialog(() => deleteEntity(jobTitle.id));
     };
 
     if (isPending) return <div />;
@@ -27,38 +27,40 @@ const SprintView = () => {
     return (
         <>
             <div className="flex items-center justify-between gap-4">
-                <h6 className="text-2xl">Sprints</h6>
+                <h6 className="text-2xl">Job Titles</h6>
                 <div className="flex justify-end ">
                     <Button onClick={entityManager.handleCreate}>
-                        {t("Add sprint")}
+                        {t("Add job title")}
                         <CrossSvgComponent />
                     </Button>
                 </div>
             </div>
-            <ul>
-                {data?.map((sprint) => (
-                    <SprintCard
-                        key={sprint.id}
-                        sprint={sprint}
+            <ul className="w-full">
+                {data?.map((jobTitle) => (
+                    <JobTitleCard
+                        key={jobTitle.id}
+                        jobTitle={jobTitle}
                         onUpdate={entityManager.handleUpdate}
                         onDelete={handleDelete}
                     />
                 ))}
             </ul>
+
             <ConfirmDialogComponent
                 title={t("Confirm Deletion")}
-                message={t("Are you sure you want to delete this sprint?")}
+                message={t("Are you sure you want to delete this job title?")}
             />
+
             <div className="mt-4 text-right">
                 {entityManager.isCreating && (
-                    <SprintCreate
+                    <JobTitleCreate
                         onSuccess={onSuccess}
                         onClose={entityManager.handleClose}
                     />
                 )}
                 {entityManager.updatableEntity && (
-                    <SprintUpdate
-                        sprint={entityManager.updatableEntity}
+                    <JobTitleUpdate
+                        jobTitle={entityManager.updatableEntity}
                         onSuccess={onSuccess}
                         onClose={entityManager.handleClose}
                     />
@@ -68,4 +70,4 @@ const SprintView = () => {
     );
 };
 
-export default SprintView;
+export default JobTitlesView;
