@@ -8,6 +8,7 @@ import { JobTitleModule } from './modules/job-title/job-title.module';
 import { MembersModule } from './modules/members/members.module';
 import { SprintsModule } from './modules/sprints/sprints.module';
 import { IssueModule } from './modules/issue/issue.module';
+import { LogsModule } from './modules/log/logs.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { IssueModule } from './modules/issue/issue.module';
         MembersModule,
         SprintsModule,
         IssueModule,
+        LogsModule,
     ],
     controllers: [AppController],
     providers: [AppService],

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CreateIssueDto } from './dto/create-issue.dto';
 import { UpdateIssueDto } from './dto/update-issue.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { Issue } from '@prisma/client';
 import { omit } from 'lodash';
 
 @Injectable()
@@ -11,7 +10,12 @@ export class IssueService {
 
     async create(createIssueDto: CreateIssueDto & { companyId: number }) {
         const issue = await this.prisma.issue.create({
-            data: omit(createIssueDto, ['sprintId']),
+            data: {
+                ...omit(createIssueDto, ['sprintId']),
+                spentTime: 0,
+                remainingTime: createIssueDto.originalEstimate,
+                status: 'in_progress',
+            },
         });
 
         if (!createIssueDto.sprintId) {
@@ -28,23 +32,14 @@ export class IssueService {
         return issue;
     }
 
-    findByCompany(id: number): Promise<Issue[]> {
+    filterByCompany(companyId: number, name?: string, type?: string) {
         return this.prisma.issue.findMany({
             where: {
-                companyId: id,
+                companyId,
+                ...(name && { name: { contains: name } }),
+                ...(type && { type }),
             },
-        });
-    }
-
-    findBySprint(id: number): Promise<Issue[]> {
-        return this.prisma.issue.findMany({
-            where: {
-                sprints: {
-                    some: {
-                        sprintId: id,
-                    },
-                },
-            },
+            take: 20,
         });
     }
 

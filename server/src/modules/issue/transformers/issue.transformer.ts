@@ -30,4 +30,6 @@ export class IssueTransformer {
 
     @Expose()
         parentIssueId: number;
+
+    // create data based on start and end date
 }

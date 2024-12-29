@@ -1,6 +1,6 @@
-import {IsDateString, IsNotEmpty, IsString} from 'class-validator';
+import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateSprintDto {
+export class DuplicateSprintDto {
     @IsString()
     @IsNotEmpty()
         name: string;

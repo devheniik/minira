@@ -1,7 +1,7 @@
-import { ReactNode, useCallback, useEffect, useState } from "react";
-import { AuthContext } from "@/context/AuthContext.tsx";
+import {ReactNode, useCallback, useEffect, useState} from "react";
+import {AuthContext} from "@/context/AuthContext.tsx";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 const TOKEN_KEY = "accessToken";
 
@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         loadToken();
         setLoading(false);
     }, []);
+
     const isTokenExpired = (token: string) => {
         if (!token) return true;
         try {

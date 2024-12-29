@@ -89,14 +89,13 @@ model Issue {
 }
 
 model TimeLog {
-    id            Int      @id @default(autoincrement())
-    issueId       Int
-    spentTime     Int      @map("spent_time")
-    remainingTime Int      @map("remaining_time")
-    logDate       DateTime @map("log_date")
-    createdAt     DateTime @default(now()) @map("created_at")
-    updatedAt     DateTime @updatedAt @map("updated_at")
-    issue         Issue    @relation(fields: [issueId], references: [id])
+    id        Int      @id @default(autoincrement())
+    issueId   Int
+    spentTime Int      @map("spent_time")
+    logDate   DateTime @map("log_date")
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    issue     Issue    @relation(fields: [issueId], references: [id])
 }
 
 model SprintTask {
@@ -107,4 +106,6 @@ model SprintTask {
     updatedAt DateTime @updatedAt @map("updated_at")
     sprint    Sprint   @relation(fields: [sprintId], references: [id])
     issue     Issue    @relation(fields: [issueId], references: [id])
+
+    @@unique([sprintId, issueId])
 }

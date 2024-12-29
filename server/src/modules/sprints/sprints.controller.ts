@@ -17,6 +17,8 @@ import { User as UserEntity } from '.prisma/client';
 import { plainToInstance } from 'class-transformer';
 import { SprintTransformer } from './transformers/sprint.transformer';
 import { SprintViewTransformer } from './transformers/sprint-view.transformer';
+import { IssuesToSprintDto } from './dto/issues-to-sprint.dto';
+import { DuplicateSprintDto } from './dto/duplicate-sprint.dto';
 
 @Controller('sprint')
 export class SprintsController {
@@ -27,6 +29,19 @@ export class SprintsController {
     create(@Body() createSprintDto: CreateSprintDto, @User() user: UserEntity) {
         return this.sprintsService.create({
             ...createSprintDto,
+            companyId: user.companyId,
+        });
+    }
+
+    @Post('duplicate/:id')
+    @UseGuards(JwtAuthGuard)
+    duplicate(
+        @Param('id') id: string,
+        @Body() duplicateSprintDto: DuplicateSprintDto,
+        @User() user: UserEntity,
+    ) {
+        return this.sprintsService.duplicate(+id, {
+            ...duplicateSprintDto,
             companyId: user.companyId,
         });
     }
@@ -46,10 +61,21 @@ export class SprintsController {
     async findOne(@Param('id') id: string) {
         const sprint = await this.sprintsService.findOne(+id);
 
-        console.log(sprint.issues);
+        return plainToInstance(SprintViewTransformer, sprint, {
+            excludeExtraneousValues: false,
+        });
+    }
+
+    @Get(':id/issue/:issueId')
+    @UseGuards(JwtAuthGuard)
+    async findOneForIssue(
+        @Param('id') id: string,
+        @Param('issueId') issueId: string,
+    ) {
+        const sprint = await this.sprintsService.findOne(+id, [+issueId]);
 
         return plainToInstance(SprintViewTransformer, sprint, {
-            excludeExtraneousValues: true,
+            excludeExtraneousValues: false,
         });
     }
 
@@ -57,6 +83,27 @@ export class SprintsController {
     @UseGuards(JwtAuthGuard)
     update(@Param('id') id: string, @Body() updateSprintDto: UpdateSprintDto) {
         return this.sprintsService.update(+id, updateSprintDto);
+    }
+
+    @Patch('attach-issues-to-sprint/:id')
+    @UseGuards(JwtAuthGuard)
+    attachIssues(
+        @Param('id') id: string,
+        @Body() issuesToSprintDto: IssuesToSprintDto,
+    ) {
+        return this.sprintsService.attachIssuesToSprint(+id, issuesToSprintDto);
+    }
+
+    @Patch('detach-issues-to-sprint/:id')
+    @UseGuards(JwtAuthGuard)
+    detachIssues(
+        @Param('id') id: string,
+        @Body() issuesToSprintDto: IssuesToSprintDto,
+    ) {
+        return this.sprintsService.detachIssuesFromSprint(
+            +id,
+            issuesToSprintDto,
+        );
     }
 
     @Delete(':id')

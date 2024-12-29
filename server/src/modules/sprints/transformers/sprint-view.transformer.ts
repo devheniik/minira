@@ -1,5 +1,5 @@
 import { Expose, plainToInstance, Transform } from 'class-transformer';
-import { IssueTransformer } from '../../issue/transformers/issue.transformer';
+import { IssueTableTransformer } from '../../issue/transformers/issue-table.transformer';
 
 export class SprintViewTransformer {
     @Expose()
@@ -18,11 +18,17 @@ export class SprintViewTransformer {
         description: string;
 
     @Expose()
-    @Transform(({ value }) => value.map((task) => task.issue))
+    @Transform(({ value, obj }) =>
+        value.map((task) => ({
+            ...task.issue,
+            sprintStartDate: obj.startDate,
+            sprintEndDate: obj.endDate,
+        })),
+    )
     @Transform(({ value }) =>
-        plainToInstance(IssueTransformer, value, {
+        plainToInstance(IssueTableTransformer, value, {
             excludeExtraneousValues: true,
         }),
     )
-        issues: IssueTransformer[];
+        issues: IssueTableTransformer[];
 }
