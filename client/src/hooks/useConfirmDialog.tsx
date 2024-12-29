@@ -1,35 +1,42 @@
 import { useState } from "react";
 import ConfirmDialog from "@/components/dialog/confirm-dialog.tsx";
 
-const useConfirmDialog = () => {
-    const [isOpen, setIsOpen] = useState(false);
+type ConfirmDialogProps = {
+    title: string;
+    message: string;
+};
+
+type UseConfirmDialogReturn = {
+    openConfirmDialog: (onConfirm: () => void) => void;
+    ConfirmDialogComponent: (props: ConfirmDialogProps) => JSX.Element;
+};
+
+const useConfirmDialog = (): UseConfirmDialogReturn => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const [onConfirmCallback, setOnConfirmCallback] = useState<
         (() => void) | null
             >(null);
 
-    const openConfirmDialog = (onConfirm: () => void) => {
+    const openConfirmDialog = (onConfirm: () => void): void => {
         setOnConfirmCallback(() => onConfirm);
         setIsOpen(true);
     };
 
-    const handleConfirm = () => {
+    const handleConfirm = (): void => {
         if (onConfirmCallback) {
             onConfirmCallback();
         }
         setIsOpen(false);
     };
 
-    const handleCancel = () => {
+    const handleCancel = (): void => {
         setIsOpen(false);
     };
 
     const ConfirmDialogComponent = ({
         title,
         message,
-    }: {
-        title: string;
-        message: string;
-    }) => (
+    }: ConfirmDialogProps): JSX.Element => (
         <ConfirmDialog
             isOpen={isOpen}
             onConfirm={handleConfirm}

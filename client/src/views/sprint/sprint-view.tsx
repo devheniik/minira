@@ -1,70 +1,43 @@
-import { useDeleteSprint, useGetAllSprint } from "@/services/sprint.ts";
-import { SprintDto } from "@minira/server";
-import { useEntityActions } from "@/hooks/useEntityActions.ts";
-import SprintCard from "./components/sprint-card";
-import { Button } from "@/components/ui/button";
-import { t } from "i18next";
-import SprintCreate from "@/views/sprint/components/sprint-create";
-import SprintUpdate from "@/views/sprint/components/sprint-update";
-import CrossSvgComponent from "@/components/svg/CrossSvgComponent";
-import useConfirmDialog from "@/hooks/useConfirmDialog.tsx";
+import { useParams } from "react-router";
+import { FC, useEffect } from "react";
+import { useDeleteSprint, useGetSprintById } from "@/services/sprint";
+import { SprintDto, SprintViewDto } from "@minira/server";
+import SprintViewTable from "./components/sprint-view-table";
+import { useSingleEntityActions } from "@/hooks/useEntityActions";
+import SprintViewCreate from "./components/spint-view-create";
 
-const SprintView = () => {
-    const { data, isPending, deleteEntity, onSuccess, entityManager } =
-        useEntityActions<SprintDto>({
-            useGetAll: useGetAllSprint,
+const SprintView: FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const { dataById, onSuccess, entityManager } =
+        useSingleEntityActions<SprintDto>({
             useDelete: useDeleteSprint,
+            useGetById: useGetSprintById,
+            id: id ? +id : undefined || -1,
         });
 
-    const { openConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-
-    const handleDelete = (sprint: SprintDto) => {
-        openConfirmDialog(() => deleteEntity(sprint.id));
-    };
-
-    if (isPending) return <div />;
+    useEffect(() => {
+        console.log(dataById);
+    }, [dataById]);
 
     return (
-        <>
-            <div className="flex items-center justify-between gap-4">
-                <h6 className="text-2xl">Sprints</h6>
-                <div className="flex justify-end ">
-                    <Button onClick={entityManager.handleCreate}>
-                        {t("Add sprint")}
-                        <CrossSvgComponent />
-                    </Button>
-                </div>
-            </div>
-            <ul>
-                {data?.map((sprint) => (
-                    <SprintCard
-                        key={sprint.id}
-                        sprint={sprint}
-                        onUpdate={entityManager.handleUpdate}
-                        onDelete={handleDelete}
-                    />
-                ))}
-            </ul>
-            <ConfirmDialogComponent
-                title={t("Confirm Deletion")}
-                message={t("Are you sure you want to delete this sprint?")}
-            />
+        <div>
+            {/*TODO: fix types */}
+            {dataById && (
+                <SprintViewTable
+                    data={dataById as SprintViewDto}
+                    onCreate={entityManager.handleCreateWithEntity}
+                />
+            )}
             <div className="mt-4 text-right">
                 {entityManager.isCreating && (
-                    <SprintCreate
-                        onSuccess={onSuccess}
-                        onClose={entityManager.handleClose}
-                    />
-                )}
-                {entityManager.updatableEntity && (
-                    <SprintUpdate
-                        sprint={entityManager.updatableEntity}
+                    <SprintViewCreate
+                        logData={entityManager.creatableEntity}
                         onSuccess={onSuccess}
                         onClose={entityManager.handleClose}
                     />
                 )}
             </div>
-        </>
+        </div>
     );
 };
 

@@ -1,4 +1,4 @@
-import SprintForm from "@/views/sprint/components/sprint-form.tsx";
+import SprintForm from "@/views/sprints/components/sprint-form.tsx";
 import { CreateSprintDto } from "@minira/server";
 import { useCreateSprint } from "@/services/sprint.ts";
 

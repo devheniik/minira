@@ -2,17 +2,19 @@ import { SprintDto } from "@minira/server";
 import { formatDate } from "@/lib/date.formatter";
 import { Button } from "@/components/ui/button";
 import { t } from "i18next";
+import { FC } from "react";
+import { useNavigate } from "react-router";
 
-const SprintCard = ({
-    sprint,
-    onUpdate,
-    onDelete,
-}: {
+interface ISprintCard {
     sprint: SprintDto;
     onUpdate: (sprint: SprintDto) => void;
     onDelete: (sprint: SprintDto) => void;
-}) => {
+}
+
+const SprintCard: FC<ISprintCard> = ({ sprint, onUpdate, onDelete }) => {
     // Here need to be status
+    const navigate = useNavigate();
+
     return (
         <li
             key={sprint.id}
@@ -32,6 +34,9 @@ const SprintCard = ({
                     {t("Delete")}
                 </Button>
                 <Button onClick={() => onUpdate(sprint)}>{t("Edit")}</Button>
+                <Button onClick={() => navigate(`/sprint/${sprint.id}`)}>
+                    {t("View")}
+                </Button>
             </div>
         </li>
     );
