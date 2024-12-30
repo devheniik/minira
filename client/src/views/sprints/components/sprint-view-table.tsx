@@ -1,33 +1,27 @@
-import { FC } from "react";
-import {
-    Table,
-    TableHeader,
-    TableRow,
-    TableCell,
-    TableBody,
-} from "@/components/ui/table";
-import { CreateLogDto, IssueDto, SprintViewDto } from "@minira/server";
-import { formatDateShortcut } from "@/lib/date.formatter";
+import {FC} from "react";
+import {Table, TableBody, TableCell, TableHeader, TableRow,} from "@/components/ui/table.tsx";
+import {CreateLogDto, IssueDto, SprintViewDto} from "@minira/server";
+import {formatDateShortcut} from "@/lib/date.formatter.ts";
+import {t} from "i18next";
 
 interface ISprintViewTable {
     data: SprintViewDto;
     onCreate: (sprint: CreateLogDto) => void;
 }
 
-export type ITable = {
+export type ICell = {
     remaining: number;
     spentTime: number;
 };
 
 const SprintViewTable: FC<ISprintViewTable> = ({ data, onCreate }) => {
-    const handleClick = (t: ITable, issue: IssueDto, date: string): void => {
-        const logData: CreateLogDto = {
-            remainingTime: +t.remaining,
-            spentTime: +t.spentTime,
+    const handleClick = (cell: ICell, issue: IssueDto, date: string): void => {
+        onCreate({
+            remainingTime: +cell.remaining,
+            spentTime: +cell.spentTime,
             issueId: +issue.id,
             logDate: date,
-        };
-        onCreate(logData);
+        });
     };
 
     return (
@@ -35,31 +29,32 @@ const SprintViewTable: FC<ISprintViewTable> = ({ data, onCreate }) => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Estimate</TableCell>
+                        <TableCell>{t('common.name')}</TableCell>
+                        <TableCell>{t('common.assignee')}</TableCell>
+                        <TableCell>{t('common.estimate')}</TableCell>
                         {data &&
                             Object.keys(
                                 (data as SprintViewDto).issues[0].table,
-                            ).map((t) => (
-                                <TableCell key={t}>
-                                    {formatDateShortcut(t)}
+                            ).map((date) => (
+                                <TableCell key={date}>
+                                    {formatDateShortcut(date)}
                                 </TableCell>
                             ))}
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {/* Fix SprintViewDto */}
                     {data &&
                         (data as SprintViewDto).issues.map((issue) => (
                             <TableRow key={issue.id}>
                                 <TableCell>{issue.name}</TableCell>
+                                <TableCell>{issue.member}</TableCell>
                                 <TableCell>{issue.originalEstimate}</TableCell>
-                                {Object.values(issue.table).map((t, idx) => (
+                                {Object.values(issue.table).map((cell, idx) => (
                                     <TableCell
                                         className="cursor-pointer hover:bg-gray-200 transition duration-200 ease-in-out"
                                         onClick={() =>
                                             handleClick(
-                                                t,
+                                                cell,
                                                 issue,
                                                 Object.keys(
                                                     (data as SprintViewDto)
@@ -69,7 +64,7 @@ const SprintViewTable: FC<ISprintViewTable> = ({ data, onCreate }) => {
                                         }
                                         key={idx}
                                     >
-                                        {t.remaining}
+                                        {cell.remaining}
                                     </TableCell>
                                 ))}
                             </TableRow>

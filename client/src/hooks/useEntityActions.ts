@@ -1,7 +1,7 @@
-import { useState } from "react";
+import {useState} from "react";
 // @ts-expect-error - required for the type to be found
-import type { UseQueryResult } from "@tanstack/react-query/src/types.ts";
-import { DeleteEntryMutationType } from "@/lib/service.builder.ts";
+import type {UseQueryResult} from "@tanstack/react-query/src/types.ts";
+import {DeleteEntryMutationType} from "@/lib/service.builder.ts";
 
 interface UseEntityManagerProps<T> {
     useGetAll: () => UseQueryResult<T[]>;
@@ -35,6 +35,7 @@ export const useEntityManager = <T>() => {
 
     const handleClose = () => {
         setUpdatableEntity(null);
+        setCreatableEntity(null);
         setIsCreating(false);
     };
 

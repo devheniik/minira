@@ -1,19 +1,13 @@
-import { useForm } from "@/hooks/useForm";
+import {useForm} from "@/hooks/useForm";
 import ValidationForm from "@/components/validation/validation-form.tsx";
 import ValidationFormField from "@/components/validation/validation-form-field.tsx";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { t } from "i18next";
-import { zh } from "@/lib/zod.helper";
-import { useEffect } from "react";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {t} from "i18next";
+import {zh} from "@/lib/zod.helper";
+import {useEffect} from "react";
 import * as z from "zod";
-import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
+import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
 
 const SprintFormSchema = z.object({
     name: zh.min(2).max(255),
@@ -21,20 +15,6 @@ const SprintFormSchema = z.object({
     startDate: zh.date(),
     endDate: zh.date(),
 });
-//TODO: make it correct
-// .refine(
-//     (data) => {
-//         const start = new Date(data.startDate);
-//         const end = new Date(data.endDate);
-
-//         return (
-//             !isNaN(start.getTime()) && !isNaN(end.getTime()) && start < end
-//         );
-//     },
-//     {
-//         message: "Start date must be earlier than end date.",
-//     },
-// );
 
 const SprintEmptyForm = {
     name: "",

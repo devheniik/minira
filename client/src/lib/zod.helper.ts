@@ -1,5 +1,5 @@
 import * as zod from "zod";
-import { t } from "i18next";
+import {t} from "i18next";
 
 export abstract class zh {
     private static z = zod;
@@ -12,16 +12,18 @@ export abstract class zh {
         return this.z.number();
     };
 
-    public static time = () => {
-        return this.z.string().refine(
-            (val) => {
-                const numberVal = parseFloat(val);
-                return !isNaN(numberVal) && numberVal % 0.5 === 0;
-            },
-            {
-                message: t("validation.mustBeMultipleOfHalf"),
-            },
-        );
+    public static hours = () => {
+        return this.z
+            .any()
+            .transform((val) => parseFloat(val))
+            .refine(
+                (val) => {
+                    return !isNaN(val) && val % 0.5 === 0;
+                },
+                {
+                    message: t("validation.mustBeMultipleOfHalf"),
+                },
+            );
     };
 
     public static date = () => {

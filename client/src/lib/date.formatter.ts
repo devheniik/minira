@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export const formatDate = (date: string | null | undefined): string => {
     if (!date) {
         return "Invalid date";
@@ -51,26 +53,9 @@ export const formatDateRange = (
     }
 };
 
-export const formatDateShortcut = (date: string | null | undefined): string => {
-    if (!date) {
-        return "Invalid date";
-    }
-    try {
-        const daysOfWeek = ["SN", "M", "T", "W", "TH", "F", "ST"];
-        const options: Intl.DateTimeFormatOptions = {
-            weekday: "short",
-            day: "2-digit",
-        };
-        const formattedDate = new Date(date).toLocaleDateString(
-            undefined,
-            options,
-        );
-        const [, month] = formattedDate.split(" ");
-        const dayIndex = new Date(date).getDay();
-        const shortWeekday = daysOfWeek[dayIndex];
-        return `${month}  ${shortWeekday}`;
-    } catch (error) {
-        console.error("Error formatting date shortcut:", error);
-        return "Invalid date";
-    }
+export const formatDateShortcut = (date: string): string => {
+    const day = dayjs(date);
+    const formattedDay = day.format('dd'); // Short day name (e.g., M, Tu, W)
+    const formattedDate = day.format('D'); // Day of the month
+    return `${formattedDay} ${formattedDate}`;
 };

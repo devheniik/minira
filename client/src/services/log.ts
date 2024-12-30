@@ -1,5 +1,5 @@
-import { CreateLogDto } from "@minira/server";
-import { serviceBuilder } from "@/lib/service.builder.ts";
+import {CreateLogDto} from "@minira/server";
+import {serviceBuilder} from "@/lib/service.builder.ts";
 
 export const {
     useGetAllEntries: useGetAllLogs,
@@ -8,10 +8,3 @@ export const {
     useCreateEntry: useCreateLog,
     // Fix it
 } = serviceBuilder<CreateLogDto, CreateLogDto, CreateLogDto>("log");
-
-console.log({
-    useGetAllLogs,
-    useGetLogById,
-    useDeleteLog,
-    useCreateLog,
-});

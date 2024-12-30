@@ -3,15 +3,15 @@ import {useMutation, useQuery} from "@tanstack/react-query";
 // @ts-expect-error - required for the type to be found
 import type {UseMutationResult} from "@tanstack/react-query/src/types.ts";
 
-export function requestsBuilder<T, C, U>(url: string) {
+export function requestsBuilder<T, C, U, V = T>(url: string) {
 
     const getAllEntries = async (): Promise<T[]> => {
         const { data } = await axios.get<T[]>(url);
         return data;
     }
 
-    const getEntryById = async (id: number): Promise<T> => {
-        const { data } = await axios.get<T>(`${url}/${id}`);
+    const getEntryById = async (id: number): Promise<V> => {
+        const { data } = await axios.get<V>(`${url}/${id}`);
         return data;
     }
 
@@ -39,9 +39,9 @@ export function requestsBuilder<T, C, U>(url: string) {
     }
 }
 
-export function serviceBuilder<T, C, U>(url: string) {
+export function serviceBuilder<T, C, U, V = T>(url: string) {
 
-    const queryRequests = requestsBuilder<T, C, U>(url);
+    const queryRequests = requestsBuilder<T, C, U, V>(url);
 
     const useGetAllEntries = () => {
         return useQuery<T[]>({
@@ -51,7 +51,7 @@ export function serviceBuilder<T, C, U>(url: string) {
     };
 
     const useGetEntryById = (id: number) => {
-        return useQuery<T>({
+        return useQuery<V>({
             queryKey: [url, id],
             queryFn: () => queryRequests.getEntryById(id)
         });

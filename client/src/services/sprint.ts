@@ -1,5 +1,5 @@
-import { CreateSprintDto, SprintDto, UpdateSprintDto } from "@minira/server";
-import { serviceBuilder } from "@/lib/service.builder.ts";
+import {CreateSprintDto, SprintDto, SprintViewDto, UpdateSprintDto} from "@minira/server";
+import {serviceBuilder} from "@/lib/service.builder.ts";
 
 export const {
     useGetAllEntries: useGetAllSprint,
@@ -7,12 +7,4 @@ export const {
     useDeleteEntry: useDeleteSprint,
     useCreateEntry: useCreateSprint,
     useUpdateEntry: useUpdateSprint,
-} = serviceBuilder<SprintDto, CreateSprintDto, UpdateSprintDto>("sprint");
-
-console.log({
-    useGetAllSprint,
-    useGetSprintById,
-    useDeleteSprint,
-    useCreateSprint,
-    useUpdateSprint,
-});
+} = serviceBuilder<SprintDto, CreateSprintDto, UpdateSprintDto, SprintViewDto>("sprint");
