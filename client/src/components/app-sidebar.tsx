@@ -4,7 +4,6 @@ import {
     SidebarContent,
     SidebarGroup,
     SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
@@ -13,8 +12,8 @@ import {
     SidebarFooter,
 } from "@/components/ui/sidebar";
 import { type ReactNode } from "react";
-import { t } from "i18next";
-import { useAuth } from "@/hooks/useAuth.ts";
+import SidebarLogOut from "@/components/sidebar-log-out";
+import SidebarHeaderContent from "./sidebar-header-content";
 
 interface SidebarProps {
     groups: SidebarGroupType[];
@@ -22,16 +21,20 @@ interface SidebarProps {
 }
 
 export function Sidebar({ groups, children }: SidebarProps) {
-    const { onLogout } = useAuth();
     return (
         <SidebarContainer>
             <SidebarHeader>
-                <h1 className="text-xl font-bold">Your App</h1>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton>
+                            <SidebarHeaderContent />
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
             </SidebarHeader>
             <SidebarContent>
-                {groups.map((group) => (
-                    <SidebarGroup key={group.title}>
-                        <SidebarGroupLabel>{t(group.title)}</SidebarGroupLabel>
+                {groups.map((group, idx) => (
+                    <SidebarGroup key={idx}>
                         <SidebarGroupContent>
                             <SidebarMenu>
                                 {group.items.map((item) => (
@@ -43,20 +46,14 @@ export function Sidebar({ groups, children }: SidebarProps) {
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
                                 ))}
+                                <SidebarLogOut />
                             </SidebarMenu>
                         </SidebarGroupContent>
                     </SidebarGroup>
                 ))}
             </SidebarContent>
             {children}
-            <SidebarFooter>
-                <SidebarContent>
-                    {/* We can add the avatar, user name, and user email here, but we need to update (or rewrite) the backend response. */}
-                    <SidebarMenuButton onClick={onLogout}>
-                        <span>{t("Logout")}</span>
-                    </SidebarMenuButton>
-                </SidebarContent>
-            </SidebarFooter>
+            <SidebarFooter></SidebarFooter>
         </SidebarContainer>
     );
 }

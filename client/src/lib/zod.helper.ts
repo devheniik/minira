@@ -12,6 +12,18 @@ export abstract class zh {
         return this.z.number();
     };
 
+    public static time = () => {
+        return this.z.string().refine(
+            (val) => {
+                const numberVal = parseFloat(val);
+                return !isNaN(numberVal) && numberVal % 0.5 === 0;
+            },
+            {
+                message: t("validation.mustBeMultipleOfHalf"),
+            },
+        );
+    };
+
     public static date = () => {
         return this.z.string().refine(
             (val) => {

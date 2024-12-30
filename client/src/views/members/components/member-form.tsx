@@ -13,7 +13,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { zh } from "@/lib/zod.helper.ts";
-import JobTitleSelect from "@/views/job-titles/components/job-title-select.tsx";
+import JobTitleSelect from "@/views/members/components/job-title-select.tsx";
 
 const MemberFormSchema = z.object({
     fullName: zh.min(2).max(255),

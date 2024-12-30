@@ -18,18 +18,6 @@ export class CreateIssueDto {
     @IsNotEmpty()
         originalEstimate: number;
 
-    @IsNumber()
-    @IsNotEmpty()
-        remainingTime: number;
-
-    @IsNumber()
-    @IsNotEmpty()
-        spentTime: number;
-
-    @IsString()
-    @IsNotEmpty()
-        status: string;
-
     @IsIn(['story', 'bug', 'task', 'epic'])
         type: string;
 

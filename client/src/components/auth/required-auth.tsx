@@ -1,13 +1,15 @@
-import {useAuth} from "@/hooks/useAuth.ts";
-import {Navigate} from "react-router";
-import {type ReactNode} from "react";
+import { useAuth } from "@/hooks/useAuth.ts";
+import { Navigate } from "react-router";
+import { type ReactNode } from "react";
 
 const RequireAuth = ({ children }: { children: ReactNode }) => {
     const { authState } = useAuth();
 
-    console.log(authState)
+    return authState?.authenticated === true ? (
+        children
+    ) : (
+        <Navigate to="/login" replace />
+    );
+};
 
-    return authState?.authenticated === true ? children : <Navigate to="/login" replace />;
-}
-
-export default RequireAuth
+export default RequireAuth;

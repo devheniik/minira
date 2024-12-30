@@ -6,6 +6,7 @@ import {
     Param,
     Patch,
     Post,
+    Query,
     UseGuards,
 } from '@nestjs/common';
 import { IssueService } from './issue.service';
@@ -48,8 +49,16 @@ export class IssueController {
 
     @Get()
     @UseGuards(JwtAuthGuard)
-    async findByCompany(@User() user: UserEntity) {
-        const issues = await this.issueService.findByCompany(user.companyId);
+    async findByCompany(
+        @User() user: UserEntity,
+        @Query('name') name: string,
+        @Query('type') type: string,
+    ) {
+        const issues = await this.issueService.filterByCompany(
+            user.companyId,
+            name,
+            type,
+        );
 
         return plainToInstance(IssueTransformer, issues, {
             excludeExtraneousValues: true,

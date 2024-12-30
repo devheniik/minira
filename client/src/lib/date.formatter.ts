@@ -22,7 +22,7 @@ export const formatDateTime = (date: string | null | undefined): string => {
     }
 };
 
-export const formatSprintDateRange = (
+export const formatDateRange = (
     startDate: string | null | undefined,
     endDate: string | null | undefined,
 ): string => {
@@ -48,5 +48,29 @@ export const formatSprintDateRange = (
     } catch (error) {
         console.error("Error formatting sprint date range:", error);
         return "Invalid date range";
+    }
+};
+
+export const formatDateShortcut = (date: string | null | undefined): string => {
+    if (!date) {
+        return "Invalid date";
+    }
+    try {
+        const daysOfWeek = ["SN", "M", "T", "W", "TH", "F", "ST"];
+        const options: Intl.DateTimeFormatOptions = {
+            weekday: "short",
+            day: "2-digit",
+        };
+        const formattedDate = new Date(date).toLocaleDateString(
+            undefined,
+            options,
+        );
+        const [, month] = formattedDate.split(" ");
+        const dayIndex = new Date(date).getDay();
+        const shortWeekday = daysOfWeek[dayIndex];
+        return `${month}  ${shortWeekday}`;
+    } catch (error) {
+        console.error("Error formatting date shortcut:", error);
+        return "Invalid date";
     }
 };
