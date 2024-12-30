@@ -1,14 +1,15 @@
 import { useDeleteSprint, useGetAllSprint } from "@/services/sprint.ts";
 import { SprintDto } from "@minira/server";
 import { useEntityActions } from "@/hooks/useEntityActions.ts";
-import SprintCard from "./components/sprint-card";
+import SprintCard from "./components/sprint/sprint-card";
 import { Button } from "@/components/ui/button";
 import { t } from "i18next";
-import SprintCreate from "@/views/sprints/components/sprint-create";
-import SprintUpdate from "@/views/sprints/components/sprint-update";
+import SprintCreate from "@/views/sprints/components/sprint/sprint-create";
+import SprintUpdate from "@/views/sprints/components/sprint/sprint-update";
 import CrossSvgComponent from "@/components/svg/CrossSvgComponent";
 import useConfirmDialog from "@/hooks/useConfirmDialog.tsx";
 import { FC } from "react";
+import SprintDuplicate from "./components/sprint/sprint-duplicate";
 
 const SprintsView: FC = () => {
     const { data, isPending, deleteEntity, onSuccess, entityManager } =
@@ -29,7 +30,8 @@ const SprintsView: FC = () => {
         <>
             <div className="flex items-center justify-between gap-4">
                 <h6 className="text-2xl">Sprints</h6>
-                <div className="flex justify-end ">
+                <div className="flex justify-end gap-2 ">
+                    <SprintDuplicate sprints={data} onSuccess={onSuccess} />
                     <Button onClick={entityManager.handleCreate}>
                         {t("Add sprint")}
                         <CrossSvgComponent />
