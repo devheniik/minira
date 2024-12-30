@@ -10,6 +10,12 @@ export function requestsBuilder<T, C, U, V = T>(url: string) {
         return data;
     }
 
+    const getCurrentEntry = async (): Promise<T> => {
+        const { data } = await axios.get<T>(url);
+        return data;
+    };
+
+
     const getEntryById = async (id: number): Promise<V> => {
         const { data } = await axios.get<V>(`${url}/${id}`);
         return data;
@@ -30,13 +36,20 @@ export function requestsBuilder<T, C, U, V = T>(url: string) {
         return data;
     }
 
+    const updateEntryWithParamId = async (id: number, entry: U): Promise<T> => {
+        const { data } = await axios.patch<T>(`${url}?id=${id}`, entry);
+        return data;
+    };
+
     return {
         getAllEntries,
+        getCurrentEntry,
         getEntryById,
         deleteEntry,
         createEntry,
-        updateEntry
-    }
+        updateEntry,
+        updateEntryWithParamId,
+    };
 }
 
 export function serviceBuilder<T, C, U, V = T>(url: string) {
@@ -47,6 +60,13 @@ export function serviceBuilder<T, C, U, V = T>(url: string) {
         return useQuery<T[]>({
             queryKey: [url],
             queryFn: queryRequests.getAllEntries
+        });
+    };
+
+    const useGetCurrentEntry = () => {
+        return useQuery<T>({
+            queryKey: [url],
+            queryFn: queryRequests.getCurrentEntry,
         });
     };
 
@@ -91,12 +111,27 @@ export function serviceBuilder<T, C, U, V = T>(url: string) {
         });
     };
 
+    const useUpdateEntryWithParamId = (
+        id: number,
+        onSuccess?: (data?: T) => unknown | Promise<unknown>,
+        onError?: (error: unknown) => unknown | Promise<unknown>,
+    ) => {
+        return useMutation({
+            mutationFn: async (entry: U) =>
+                await queryRequests.updateEntryWithParamId(id, entry),
+            onSuccess,
+            onError,
+        });
+    };
+
     return {
         useGetAllEntries,
+        useGetCurrentEntry,
         useGetEntryById,
         useDeleteEntry,
         useCreateEntry,
-        useUpdateEntry
+        useUpdateEntry,
+        useUpdateEntryWithParamId,
     };
 }
 

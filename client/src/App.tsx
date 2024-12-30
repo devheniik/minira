@@ -1,15 +1,16 @@
-import {AuthProvider} from "@/providers/auth-provider.tsx";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import {BrowserRouter, Route, Routes} from "react-router";
-import {AuthLayout} from "@/layouts/AuthLayout.tsx";
+import { AuthProvider } from "@/providers/auth-provider.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { AuthLayout } from "@/layouts/AuthLayout.tsx";
 import DashboardView from "@/views/dashboard/dashboard-view.tsx";
 import MembersView from "@/views/members/members-view.tsx";
 import SprintsView from "@/views/sprints/sprints-view";
-import {LoginView} from "@/views/login/login-view.tsx";
+import { LoginView } from "@/views/login/login-view.tsx";
 import RegisterView from "@/views/register/register-view.tsx";
 import RequireAuth from "@/components/auth/required-auth.tsx";
 import JobTitlesView from "./views/job-titles/job-titles-view";
 import Sprint from "./views/sprints/sprint-calendar-view.tsx";
+import SettingsView from "./views/settings/settings-view.tsx";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +69,14 @@ function App() {
                                 element={
                                     <RequireAuth>
                                         <Sprint />
+                                    </RequireAuth>
+                                }
+                            />
+                            <Route
+                                path="settings"
+                                element={
+                                    <RequireAuth>
+                                        <SettingsView />
                                     </RequireAuth>
                                 }
                             />
