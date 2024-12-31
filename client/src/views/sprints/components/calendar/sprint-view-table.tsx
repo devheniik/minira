@@ -34,7 +34,7 @@ const SprintViewTable: FC<ISprintViewTable> = ({ data, onCreate }) => {
                         <TableCell>{t('common.estimate')}</TableCell>
                         {data &&
                             Object.keys(
-                                (data as SprintViewDto).issues[0].table,
+                                (data as SprintViewDto).issues[0]?.table ?? {},
                             ).map((date) => (
                                 <TableCell key={date}>
                                     {formatDateShortcut(date)}
@@ -58,7 +58,7 @@ const SprintViewTable: FC<ISprintViewTable> = ({ data, onCreate }) => {
                                                 issue,
                                                 Object.keys(
                                                     (data as SprintViewDto)
-                                                        .issues[0].table,
+                                                        .issues[0]?.table ?? {},
                                                 )[idx],
                                             )
                                         }

@@ -12,6 +12,10 @@ export abstract class zh {
         return this.z.number();
     };
 
+    public static any = () => {
+        return this.z.any();
+    };
+
     public static hours = () => {
         return this.z
             .any()
@@ -38,11 +42,24 @@ export abstract class zh {
         );
     };
 
-    public static id = () => {
+    public static id = (options?: {
+        optional: boolean,
+    }) => {
+        const { optional = false } = options || {};
+
         // create id validator not allow 0
-        return this.z.number().min(1, {
-            message: t("custom-validation.cannotBeEmpty"),
-        });
+        return this.z
+            .any()
+            .refine(
+                (val) => {
+                    const n = Number(val);
+                    return n > 0 || optional;
+                },
+                {
+                    message: t("custom-validation.cannotBeEmpty"),
+                },
+            )
+
     };
 
     public static min = (min: number) => {

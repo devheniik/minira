@@ -30,15 +30,37 @@
         "cannotBeEmpty": "Field cannot be empty",
         "required": "This field is required"
     },
+    "issue": {
+        "create": "Create Issue",
+        "edit": "Edit Issue",
+        "delete": "Delete Issue",
+        "placeholder": "Fix rendering issue",
+        "type": "Type",
+        "search": "Search issues....",
+        "parentIssue": "Parent Issue",
+        "select": "Select issue"
+    },
+    "member": {
+        "placeholder": "Select Assignee"
+    },
     "common": {
         "name": "Name",
+        "notFound": "Not found",
         "estimate": "Estimate",
         "assignee": "Assignee",
         "track": "Track",
+        "type": "Type",
         "remainingTime": "Remaining Time",
         "spentTime": "Spent Time",
+        "back": "Back",
+        "description": "Description",
+        "manager": "Manager",
         "actions" : {
             "save": "Save"
-        }
+        },
+        "epic": "Epic",
+        "story": "Story",
+        "task": "Task",
+        "bug": "Bug"
     }
 }

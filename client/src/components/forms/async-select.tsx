@@ -16,7 +16,7 @@ export const AsyncSelect = <
         }: {
         query: UseQueryResult<T[]>;
         placeholder: string;
-        titleKey?: K;
+        titleKey: K;
         onValueChange: (value: number) => void;
         defaultValue?: Primitive;
 
