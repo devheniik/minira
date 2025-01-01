@@ -15,11 +15,11 @@ import {useAuth} from "@/hooks/useAuth.ts";
 
 const registerFormSchema = z
     .object({
-        email: zh.min(1).max(255),
-        password: zh.min(6).max(9999),
-        confirmPassword: zh.min(6).max(9999),
-        fullName: zh.min(1).max(255),
-        companyName: zh.min(1).max(255),
+        email: zh.string().min(1).max(255),
+        password: zh.string().min(6).max(9999),
+        confirmPassword: zh.string().min(6).max(9999),
+        fullName: zh.string().min(1).max(255),
+        companyName: zh.string().min(1).max(255),
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: "Passwords don't match",

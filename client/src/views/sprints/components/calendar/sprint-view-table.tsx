@@ -1,12 +1,14 @@
 import {FC} from "react";
 import {Table, TableBody, TableCell, TableHeader, TableRow,} from "@/components/ui/table.tsx";
-import {CreateLogDto, IssueDto, SprintViewDto} from "@minira/server";
+import {CreateLogDto, IssueTableDto, SprintViewDto} from "@minira/server";
 import {formatDateShortcut} from "@/lib/date.formatter.ts";
 import {t} from "i18next";
+import {Icon} from "@/components/wrappers/icon.tsx";
 
 interface ISprintViewTable {
     data: SprintViewDto;
     onCreate: (sprint: CreateLogDto) => void;
+    onEdit: (issue: IssueTableDto) => void;
 }
 
 export type ICell = {
@@ -14,8 +16,8 @@ export type ICell = {
     spentTime: number;
 };
 
-const SprintViewTable: FC<ISprintViewTable> = ({ data, onCreate }) => {
-    const handleClick = (cell: ICell, issue: IssueDto, date: string): void => {
+const SprintViewTable: FC<ISprintViewTable> = ({ data, onCreate, onEdit }) => {
+    const handleClick = (cell: ICell, issue: IssueTableDto, date: string): void => {
         onCreate({
             remainingTime: +cell.remaining,
             spentTime: +cell.spentTime,
@@ -46,7 +48,16 @@ const SprintViewTable: FC<ISprintViewTable> = ({ data, onCreate }) => {
                     {data &&
                         (data as SprintViewDto).issues.map((issue) => (
                             <TableRow key={issue.id}>
-                                <TableCell>{issue.name}</TableCell>
+                                <TableCell>
+                                    <div className="flex flex-row justify-between items-center">
+                                        <span>{issue.name}</span>
+                                        <Icon
+                                            name="settings"
+                                            onClick={() => onEdit(issue)}
+                                            size={12}
+                                            className={'cursor-pointer'}/>
+                                    </div>
+                                </TableCell>
                                 <TableCell>{issue.member}</TableCell>
                                 <TableCell>{issue.originalEstimate}</TableCell>
                                 {Object.values(issue.table).map((cell, idx) => (

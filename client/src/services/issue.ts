@@ -12,6 +12,10 @@ export const {
     useCreateEntry: useCreateIssue,
 } = serviceBuilder<IssueDto, CreateIssueDto, UpdateIssueDto>("issue");
 
+export const selectIssues = async (type: string = '', name: string = '') => {
+    const { data } = await axios.get<IssueDto[]>(`issue?name=${name}&type=${type}`)
+    return data
+}
 
 export function useSelectIssues(type: string) {
     const [name, setName] = useState('');

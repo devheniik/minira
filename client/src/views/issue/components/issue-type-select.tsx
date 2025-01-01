@@ -5,19 +5,19 @@ import {t} from "i18next";
 
 const issueTypes = [
     {
-        name: t('common.story'),
+        name: 'common.story',
         value: 'story'
     },
     {
-        name: t('common.bug'),
+        name: 'common.bug',
         value: 'bug'
     },
     {
-        name: t('common.task'),
+        name: 'common.task',
         value: 'task'
     },
     {
-        name: t('common.epic'),
+        name: 'common.epic',
         value: 'epic'
     }];
 
@@ -48,7 +48,7 @@ const IssueTypeSelect = ({
                 <SelectGroup>
                     {issueTypes.map((type) => (
                         <SelectItem key={type.value} value={type.value}>
-                            {`${type.name}` + ' '}
+                            {t(type.name)}
                         </SelectItem>
                     ))}
                 </SelectGroup>

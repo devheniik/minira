@@ -27,14 +27,14 @@ export class IssueTableTransformer {
         type: string;
 
     @Expose()
-        memberId: number;
+        memberId: number | undefined;
 
     @Expose()
     @Transform(({ value }: { value: Member }) => value.fullName)
         member: string;
 
     @Expose()
-        parentIssueId: number;
+        parentIssueId: number | undefined;
 
     @Expose()
         timeLogs: TimeLog[];

@@ -113,7 +113,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
 
     const logout = useCallback(async () => {
-        localStorage.getItem(TOKEN_KEY);
+        localStorage.clear();
 
         axios.defaults.headers.common["Authorization"] = "";
 
@@ -121,6 +121,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             token: null,
             authenticated: false,
         });
+
     }, []);
 
     return (

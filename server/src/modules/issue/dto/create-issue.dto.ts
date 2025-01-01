@@ -23,11 +23,11 @@ export class CreateIssueDto {
 
     @IsNumber()
     @IsNotEmpty()
-        memberId: unknown;
+        memberId: never;
 
     @IsNumber()
     @IsOptional()
-        parentIssueId: unknown;
+        parentIssueId: never;
 
     @IsNumber()
     @IsOptional()

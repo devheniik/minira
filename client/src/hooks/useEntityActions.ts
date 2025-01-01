@@ -14,13 +14,13 @@ interface UseSingleEntityActionsProps<T> {
     id: number;
 }
 
-export const useEntityManager = <T>() => {
-    const [updatableEntity, setUpdatableEntity] = useState<T | null>(null);
+export const useEntityManager = <T, U = T>() => {
+    const [updatableEntity, setUpdatableEntity] = useState<U | null>(null);
     const [creatableEntity, setCreatableEntity] = useState<T | null>(null);
 
     const [isCreating, setIsCreating] = useState(false);
 
-    const handleUpdate = (entity: T) => {
+    const handleUpdate = (entity: U) => {
         setUpdatableEntity(entity);
     };
 

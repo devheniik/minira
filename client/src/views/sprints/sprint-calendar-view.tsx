@@ -1,7 +1,7 @@
 import {Link, useParams} from "react-router";
 import {FC} from "react";
 import {useGetSprintById} from "@/services/sprint.ts";
-import {CreateIssueDto, CreateLogDto} from "@minira/server";
+import {CreateIssueDto, CreateLogDto, IssueTableDto} from "@minira/server";
 import {useEntityManager} from "@/hooks/useEntityActions.ts";
 import CreateTimeLogForm from "@/views/sprints/components/calendar/create-time-log-form";
 import {useCreateLog} from "@/services/log.ts";
@@ -11,6 +11,7 @@ import {Icon} from "@/components/wrappers/icon.tsx";
 import {t} from "i18next";
 import {formatDateRange} from "@/lib/date.formatter.ts";
 import IssueCreate from "@/views/issue/components/issue-create.tsx";
+import IssueUpdate from "@/views/issue/components/issue-update.tsx";
 
 const SprintCalendarView: FC = () => {
     const { id = -1 } = useParams<{ id: string }>();
@@ -26,9 +27,9 @@ const SprintCalendarView: FC = () => {
         },
     );
 
-    const issueEntityManager = useEntityManager<CreateIssueDto>();
+    const issueEntityManager = useEntityManager<CreateIssueDto, IssueTableDto>();
 
-    const issueCreated = async () => {
+    const issueHandled = async () => {
         issueEntityManager.handleClose();
         await refetch()
     }
@@ -65,6 +66,7 @@ const SprintCalendarView: FC = () => {
             {!isPending && data && (
                 <SprintViewTable
                     data={data}
+                    onEdit={issueEntityManager.handleUpdate}
                     onCreate={
                         entityManager.handleCreateWithEntity as (
                             sprint: CreateLogDto,
@@ -86,7 +88,16 @@ const SprintCalendarView: FC = () => {
                 issueEntityManager.isCreating && (
                     <IssueCreate
                         sprintId={data?.id as number}
-                        onSuccess={issueCreated}
+                        onSuccess={issueHandled}
+                        onClose={issueEntityManager.handleClose}
+                    />
+                )
+            }
+            {
+                issueEntityManager.updatableEntity && (
+                    <IssueUpdate
+                        issue={issueEntityManager.updatableEntity as IssueTableDto}
+                        onSuccess={issueHandled}
                         onClose={issueEntityManager.handleClose}
                     />
                 )

@@ -1,21 +1,15 @@
-import { useForm } from "@/hooks/useForm";
+import {useForm} from "@/hooks/useForm";
 import ValidationForm from "@/components/validation/validation-form.tsx";
 import ValidationFormField from "@/components/validation/validation-form-field.tsx";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { t } from "i18next";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {t} from "i18next";
 import * as z from "zod";
-import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
-import { zh } from "@/lib/zod.helper.ts";
+import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
+import {zh} from "@/lib/zod.helper.ts";
 
 const JobTitleFormSchema = z.object({
-    name: zh.min(2).max(255),
+    name: zh.string().min(2).max(255),
     description: z.string().optional(),
 });
 

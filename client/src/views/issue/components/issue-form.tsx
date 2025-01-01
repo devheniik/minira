@@ -13,10 +13,22 @@ import {Textarea} from "@/components/ui/textarea.tsx";
 import IssueSelect from "@/views/issue/components/issue-select.tsx";
 import {useEffect} from "react";
 
+const interpolateType = (type: string) => {
+    if (type == 'epic') {
+        return 'none';
+    }
+
+    if (type == 'story') {
+        return 'epic';
+    }
+
+    return 'story';
+}
+
 const IssueFormSchema = z.object({
-    name: zh.min(2).max(255),
-    description: z.string().optional(),
-    originalEstimate: zh.number().min(0),
+    name: zh.string().min(2).max(255),
+    description: zh.string().optional(),
+    originalEstimate: zh.min(0),
     memberId: zh.id(),
     parentIssueId: zh.id({
         optional: true,
@@ -146,7 +158,7 @@ const IssueForm = <T extends IssueFormSchemaType>({
                                     field.onChange as (value: number) => void
                                 }
                                 defaultValue={field.value}
-                                type={form.getValues('type') as string}
+                                type={interpolateType(form.getValues('type') as string)}
                                 {...field}
                             />
                         )}

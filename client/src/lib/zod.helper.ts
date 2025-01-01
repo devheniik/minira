@@ -63,9 +63,16 @@ export abstract class zh {
     };
 
     public static min = (min: number) => {
-        return this.z.string().min(min, {
-            message: t("validation.min", { min }),
-        });
+        return this.any()
+            .transform(v => Number(v))
+            .refine(
+                (val) => {
+                    return val >= min;
+                },
+                {
+                    message: t("validation.min", { min }),
+                },
+            )
     };
 
     public static max = (max: number) => {

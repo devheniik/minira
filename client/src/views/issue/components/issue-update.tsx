@@ -1,4 +1,4 @@
-import {IssueDto} from "@minira/server";
+import {IssueTableDto, UpdateIssueDto} from "@minira/server";
 import {useUpdateIssue} from "@/services/issue.ts";
 import IssueForm from "@/views/issue/components/issue-form.tsx";
 
@@ -7,7 +7,7 @@ const IssueUpdate = ({
     onSuccess,
     onClose,
 }: {
-    issue: IssueDto;
+    issue: IssueTableDto;
     onSuccess: () => void;
     onClose?: () => void;
 }) => {
@@ -26,7 +26,7 @@ const IssueUpdate = ({
                 title="Update Job Title"
                 issue={issue}
                 isPending={isPending}
-                onSubmit={updateIssue}
+                onSubmit={(issue: IssueTableDto) => updateIssue(issue as UpdateIssueDto)}
                 onClose={onClose}
             />
         </>

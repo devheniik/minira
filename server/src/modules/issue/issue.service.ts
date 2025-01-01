@@ -36,7 +36,9 @@ export class IssueService {
         return this.prisma.issue.findMany({
             where: {
                 companyId,
-                ...(name && { name: { contains: name } }),
+                ...(name && {
+                    name: { contains: name.trim(), mode: 'insensitive' },
+                }),
                 ...(type && { type }),
             },
             take: 20,

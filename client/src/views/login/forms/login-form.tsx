@@ -14,8 +14,8 @@ import {useState} from "react";
 import {useAuth} from "@/hooks/useAuth.ts";
 
 const loginFormSchema = z.object({
-    email: zh.min(1).max(255),
-    password: zh.min(4).max(9999),
+    email: zh.string().min(1).max(255),
+    password: zh.string().min(4).max(9999),
 });
 
 type LoginFormSchemaType = z.infer<typeof loginFormSchema>;

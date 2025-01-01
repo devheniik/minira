@@ -16,8 +16,8 @@ const IssueCreate = ({
         name: "",
         description: "",
         originalEstimate: 4,
-        memberId: -1,
-        parentIssueId: undefined,
+        memberId: -1 as never,
+        parentIssueId: undefined as never,
         sprintId: 0,
         type: "task",
     };

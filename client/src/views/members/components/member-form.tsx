@@ -10,7 +10,7 @@ import {zh} from "@/lib/zod.helper.ts";
 import JobTitleSelect from "@/views/job-titles/components/job-title-select.tsx";
 
 const MemberFormSchema = z.object({
-    fullName: zh.min(2).max(255),
+    fullName: zh.string().min(2).max(255),
     jobTitleId: zh.id(),
 });
 

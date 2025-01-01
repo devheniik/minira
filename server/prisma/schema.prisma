@@ -44,7 +44,7 @@ model Member {
 
 model JobTitle {
     id          Int      @id @default(autoincrement())
-    name        String   @unique
+    name        String
     description String?
     companyId   Int
     company     Company  @relation(fields: [companyId], references: [id])

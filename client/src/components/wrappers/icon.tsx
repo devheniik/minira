@@ -4,12 +4,13 @@ interface IconProps {
     name: string;
     className?: string;
     size?: number;
+    onClick?: () => void
 }
 
 // Cache for loaded icons
 const iconCache = new Map<string, string>()
 
-export const Icon: FC<IconProps> = ({ name, className = '', size = 24 }) => {
+export const Icon: FC<IconProps> = ({ name, className = '', size = 24, ...props }) => {
     const [iconContent, setIconContent] = useState<string>('')
 
     useEffect(() => {
@@ -39,6 +40,7 @@ export const Icon: FC<IconProps> = ({ name, className = '', size = 24 }) => {
             className={`icon ${className}`}
             src={iconContent}
             style={{ width: size, height: size }}
+            {...props}
         />
     )
 }
