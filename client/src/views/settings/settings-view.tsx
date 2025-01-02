@@ -4,11 +4,10 @@ import { useGetCurrentCompany } from "@/services/company";
 
 const SettingsView: FC = () => {
     const { data, isPending } = useGetCurrentCompany();
-
     return (
         <>
             <img
-                src="/public/images/mesh.png"
+                src="/images/mesh.png"
                 alt="Settings Board"
                 className="w-full object-cover rounded-lg h-[100px] "
             />
@@ -17,7 +16,7 @@ const SettingsView: FC = () => {
                 <div className="mt-5 flex gap-8">
                     <div className="max-w-36 max-h-36">
                         <img
-                            src="/public/images/placeholder.png"
+                            src="/images/placeholder.png"
                             alt="Settings Board"
                             className="w-full object-cover h-full"
                         />

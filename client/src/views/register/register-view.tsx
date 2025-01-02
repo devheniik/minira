@@ -1,4 +1,4 @@
-import {RegisterForm} from "@/views/register/forms/register-form.tsx";
+import { RegisterForm } from "@/views/register/forms/register-form.tsx";
 
 const RegisterView = () => {
     return (
@@ -6,7 +6,7 @@ const RegisterView = () => {
             <div className=" max-w-[1440px] sm:px-[0] lg:px-[30px] m-auto ">
                 <div className=" sm:block lg:flex gap-[20px] items-center justify-between ">
                     <img
-                        src="/public/images/login/login-mobile.jpg"
+                        src="/images/login/login-mobile.jpg"
                         alt="Login"
                         className="w-full  sm:block  lg:hidden  object-cover h-[200px]"
                     />
@@ -14,7 +14,7 @@ const RegisterView = () => {
                         <RegisterForm />
                     </div>
                     <img
-                        src="/public/images/login/login.png"
+                        src="/images/login/login.png"
                         alt="Login"
                         className="w-full sm:hidden lg:block  lg:max-w-[50%]  object-cover h-auto "
                     />

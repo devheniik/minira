@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { t } from "i18next";
 import { FC } from "react";
 import { useNavigate } from "react-router";
+import SprintBadge from "@/components/badge/sprint-badge";
 
 interface ISprintCard {
     sprint: SprintDto;
@@ -12,7 +13,6 @@ interface ISprintCard {
 }
 
 const SprintCard: FC<ISprintCard> = ({ sprint, onUpdate, onDelete }) => {
-    // Here need to be status
     const navigate = useNavigate();
 
     return (
@@ -25,6 +25,11 @@ const SprintCard: FC<ISprintCard> = ({ sprint, onUpdate, onDelete }) => {
                 <h3 className="text-sm text-orange-50">
                     {`${formatDate(sprint.startDate)} - ${formatDate(sprint.endDate)}`}
                 </h3>
+                <SprintBadge
+                    startDate={sprint.startDate}
+                    endDate={sprint.endDate}
+                />
+
                 <span className="text-xs text-gray-400">
                     {sprint.description}
                 </span>

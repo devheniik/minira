@@ -36,11 +36,6 @@ export const sidebarConfig: SidebarGroup[] = [
                 route: "settings",
                 icon: "settings",
             },
-            // {
-            //     title: "Log out",
-            //     route: "#",
-            //     icon: "log-out",
-            // },
         ],
     },
 ];

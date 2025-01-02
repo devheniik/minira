@@ -33,6 +33,12 @@
         --orange-200: 23, 95%, 58%; /* FA7D2E */
         --orange-300: 23, 100%, 65%; /* FF914B */
         --orange-50: 23, 75%, 50%; /* DF6920 */
+        /* Status Styles Sprints */
+        --completed: 126, 49%, 67%; /* 80D489 */
+        --upcoming: 35, 93%, 76%; /* FBCC8B*/
+        --active: 327, 76%, 79%; /* F2A1CD */
+        /* Current Issue */
+        --current: 23, 100%, 95% /* FFF1E8 */;
     }
 
     .dark {

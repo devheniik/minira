@@ -67,6 +67,14 @@ module.exports = {
                     300: "hsl(var(--orange-300))",
                     50: "hsl(var(--orange-50))",
                 },
+                sprint: {
+                    completed: "hsl(var(--completed))",
+                    upcoming: "hsl(var(--upcoming))",
+                    active: "hsl(var(--active))",
+                },
+                issue: {
+                    current: "hsl(var(--current))",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",

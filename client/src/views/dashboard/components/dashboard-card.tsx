@@ -1,5 +1,6 @@
 import { SprintDto } from "@minira/server";
 import { formatDate } from "@/lib/date.formatter";
+import SprintBadge from "@/components/badge/sprint-badge";
 
 const DashboardCard = ({ sprint }: { sprint: SprintDto }) => {
     return (
@@ -12,6 +13,10 @@ const DashboardCard = ({ sprint }: { sprint: SprintDto }) => {
                 <h3 className="text-sm text-orange-50">
                     {`${formatDate(sprint.startDate)} - ${formatDate(sprint.endDate)}`}
                 </h3>
+                <SprintBadge
+                    startDate={sprint.startDate}
+                    endDate={sprint.endDate}
+                />
                 <span className="text-xs text-gray-400">
                     {sprint.description}
                 </span>
