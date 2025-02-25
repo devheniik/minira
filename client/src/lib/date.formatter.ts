@@ -18,6 +18,7 @@ export const formatDateRange = (
 ): string => {
     const start = dayjs(startDate).format('DD/MM/YYYY');
     const end = dayjs(endDate).format('DD/MM/YYYY');
+
     return `${start} - ${end}`;
 };
 

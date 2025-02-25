@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { useEntityManager } from "@/hooks/useEntityActions";
-import { useCreateSprint } from "@/services/sprint";
-import { SprintDto } from "@minira/server";
-import { t } from "i18next";
-import { FC } from "react";
+import {Button} from "@/components/ui/button";
+import {useEntityManager} from "@/hooks/useEntityActions";
+import {useDuplicateSprint} from "@/services/sprint";
+import {SprintDto} from "@minira/server";
+import {t} from "i18next";
+import {FC} from "react";
 import SprintDuplicateForm from "./sprint-duplicate-form";
 
 interface ISprintDuplicate {
@@ -18,7 +18,7 @@ const SprintDuplicate: FC<ISprintDuplicate> = ({ sprints, onSuccess }) => {
         entityManager.handleClose = onSuccess;
     }
 
-    const { mutate: createSprint, isPending } = useCreateSprint(onSuccess);
+    const { mutate: duplicateSprint, isPending } = useDuplicateSprint(onSuccess);
 
     return (
         <>
@@ -31,7 +31,7 @@ const SprintDuplicate: FC<ISprintDuplicate> = ({ sprints, onSuccess }) => {
                         title="Duplicate Sprint"
                         sprints={sprints}
                         isPending={isPending}
-                        onSubmit={createSprint}
+                        onSubmit={duplicateSprint}
                         onClose={entityManager.handleClose}
                     />
                 ) : (

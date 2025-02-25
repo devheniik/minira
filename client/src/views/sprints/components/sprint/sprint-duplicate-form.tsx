@@ -1,21 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { t } from "i18next";
-import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { CreateSprintDto, SprintDto } from "@minira/server";
-import { useState } from "react";
+import {Button} from "@/components/ui/button";
+import {t} from "i18next";
+import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
+import {DuplicateSprintDto, SprintDto} from "@minira/server";
+import {useState} from "react";
 
 const SprintDuplicateForm = ({
     title = "Action",
@@ -27,7 +15,7 @@ const SprintDuplicateForm = ({
     title?: string;
     sprints: SprintDto[];
     isPending: boolean;
-    onSubmit: (data: CreateSprintDto) => void;
+    onSubmit: ({ id, data }: { id: number; data: DuplicateSprintDto }) => void;
     onClose: () => void;
 }) => {
     const [currentSprint, setCurrentSprint] = useState<SprintDto | undefined>();
@@ -39,9 +27,12 @@ const SprintDuplicateForm = ({
 
     const handleSubmit = (currentSprint: SprintDto | undefined) => {
         if (currentSprint) {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
             const { id, ...formattedSprint } = currentSprint;
-            onSubmit(formattedSprint);
+            onSubmit({
+                data: formattedSprint,
+                id
+            });
         }
     };
 
@@ -58,7 +49,12 @@ const SprintDuplicateForm = ({
                             onValueChange={(value) => {
                                 const selectedSprint = sprints.find(
                                     (sprint) => sprint.id.toString() === value,
-                                );
+                                )
+
+                                if (selectedSprint && !selectedSprint.description) {
+                                    selectedSprint.description = "";
+                                }
+
                                 setCurrentSprint(selectedSprint);
                             }}
                         >

@@ -14,5 +14,5 @@ export class DuplicateSprintDto {
         endDate: string;
 
     @IsString()
-        description: string;
+        description: string | null;
 }

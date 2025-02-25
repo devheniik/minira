@@ -61,9 +61,13 @@ export class SprintsController {
     async findOne(@Param('id') id: string) {
         const sprint = await this.sprintsService.findOne(+id);
 
-        return plainToInstance(SprintViewTransformer, sprint, {
+        const sprintView = plainToInstance(SprintViewTransformer, sprint, {
             excludeExtraneousValues: false,
         });
+
+        sprintView.issues.sort((a, b) => a.member.localeCompare(b.member));
+
+        return sprintView;
     }
 
     @Get(':id/issue/:issueId')

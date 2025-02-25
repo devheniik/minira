@@ -63,7 +63,7 @@ export class IssueTableTransformer {
 
             for (
                 let d = new Date(sprintStart);
-                d < sprintEnd;
+                d <= sprintEnd;
                 d.setDate(d.getDate() + 1)
             ) {
                 emptyLogs[d.toISOString().split('T')[0]] = {
