@@ -123,7 +123,13 @@ export class SprintsService {
         });
     }
 
-    remove(id: number) {
+    async remove(id: number) {
+        await this.prisma.sprintTask.deleteMany({
+            where: {
+                sprintId: id,
+            },
+        });
+
         return this.prisma.sprint.delete({ where: { id } });
     }
 }
