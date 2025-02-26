@@ -86,7 +86,7 @@ export class IssueTableTransformer {
                 return emptyLogs;
             }
 
-            const dates: {
+            let dates: {
                 date: string; // Format: YYYY-MM-DD
                 data: { remaining: number; spentTime: number };
             }[] = [];
@@ -101,7 +101,7 @@ export class IssueTableTransformer {
 
             for (
                 let d = new Date(startPoint);
-                d < sprintEnd;
+                d <= sprintEnd;
                 d.setDate(d.getDate() + 1)
             ) {
                 const dateKey = d.toISOString().split('T')[0]; // Format: YYYY-MM-DD
@@ -126,10 +126,10 @@ export class IssueTableTransformer {
                 });
             }
 
-            dates.filter(
-                (date) =>
-                    new Date(date.date) >= sprintStart &&
-                    new Date(date.date) <= sprintEnd,
+            dates = dates.filter(
+                (d) =>
+                    new Date(d.date) >= sprintStart &&
+                    new Date(d.date) <= sprintEnd,
             );
 
             const dailyLogs: Record<
