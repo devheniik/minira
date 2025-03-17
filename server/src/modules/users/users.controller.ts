@@ -16,6 +16,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AuthService } from '../auth/auth.service';
+import { UserGuard } from './user.guard';
+import { User } from '../auth/user.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -33,13 +35,12 @@ export class UsersController {
 
     @Get('/profile')
     @UseGuards(JwtAuthGuard)
-    async profile() {
-        const id = 1;
-        return new UserEntity(await this.usersService.findOne(id));
+    async profile(@User() user: UserEntity) {
+        return new UserEntity(await this.usersService.findOne(user.id));
     }
 
     @Patch(':id')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, UserGuard)
     async update(
         @Param('id', ParseIntPipe) id: number,
         @Body() updateUserDto: UpdateUserDto,
@@ -50,7 +51,7 @@ export class UsersController {
     }
 
     @Delete(':id')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, UserGuard)
     async remove(@Param('id', ParseIntPipe) id: number) {
         return new UserEntity(await this.usersService.remove(id));
     }

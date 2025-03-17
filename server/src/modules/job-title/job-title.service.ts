@@ -2,9 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { CreateJobTitleDto } from './dto/create-job-title.dto';
 import { UpdateJobTitleDto } from './dto/update-job-title.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { JobTitle } from '.prisma/client';
+import { ResourceAccessService } from '../../common/interfaces/resource-access.interface'
 
 @Injectable()
-export class JobTitleService {
+export class JobTitleService  implements ResourceAccessService<JobTitle> {
     constructor(private prisma: PrismaService) {}
 
     create(createJobTitleDto: CreateJobTitleDto & { companyId: number }) {

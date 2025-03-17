@@ -38,7 +38,11 @@
         "type": "Type",
         "search": "Search issues....",
         "parentIssue": "Parent Issue",
-        "select": "Select issue"
+        "select": "Select issue",
+        "unbind": "Unbind",
+        "confirmDelete": "Are you sure you want to delete this issue?",
+        "confirmUnbind": "Are you sure you want to unbind this issue from sprint?",
+        "duplicate": "Duplicate"
     },
     "member": {
         "placeholder": "Select Assignee"
@@ -56,7 +60,8 @@
         "description": "Description",
         "manager": "Manager",
         "actions" : {
-            "save": "Save"
+            "save": "Save",
+            "delete": "Delete"
         },
         "epic": "Epic",
         "story": "Story",

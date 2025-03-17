@@ -1,19 +1,14 @@
-import { FC } from "react";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table.tsx";
-import { CreateLogDto, IssueTableDto, SprintViewDto } from "@minira/server";
-import { formatDateShortcut } from "@/lib/date.formatter.ts";
-import { t } from "i18next";
-import { Icon } from "@/components/wrappers/icon.tsx";
+import {FC} from "react";
+import {Table, TableBody, TableCell, TableHeader, TableRow,} from "@/components/ui/table.tsx";
+import {CreateLogDto, IssueTableDto, SprintViewDto} from "@minira/server";
+import {formatDateShortcut} from "@/lib/date.formatter.ts";
+import {t} from "i18next";
+import {Icon} from "@/components/wrappers/icon.tsx";
 
 interface ISprintViewTable {
     data: SprintViewDto;
     onCreate: (sprint: CreateLogDto) => void;
+    onDuplicate: (issue: IssueTableDto) => void;
     onEdit: (issue: IssueTableDto) => void;
 }
 
@@ -32,7 +27,7 @@ const isCurrentDate = (
     );
 };
 
-const SprintViewTable: FC<ISprintViewTable> = ({ data, onCreate, onEdit }) => {
+const SprintViewTable: FC<ISprintViewTable> = ({ data, onCreate, onEdit, onDuplicate }) => {
     const handleClick = (
         cell: ICell,
         issue: IssueTableDto,
@@ -68,15 +63,23 @@ const SprintViewTable: FC<ISprintViewTable> = ({ data, onCreate, onEdit }) => {
                     {data &&
                         (data as SprintViewDto).issues.map((issue) => (
                             <TableRow key={issue.id}>
-                                <TableCell>
+                                <TableCell width={'20%'}>
                                     <div className="flex flex-row justify-between items-center">
-                                        <span>{issue.name}</span>
-                                        <Icon
-                                            name="settings"
-                                            onClick={() => onEdit(issue)}
-                                            size={12}
-                                            className={"cursor-pointer"}
-                                        />
+                                        <span className={'flex-1 w-10/12 truncate whitespace-break-spaces'}>{issue.name}</span>
+                                        <div className="flex items-center gap-2">
+                                            <Icon
+                                                name="duplicate"
+                                                onClick={() => onDuplicate(issue)}
+                                                size={16}
+                                                className={"cursor-pointer flex text-blue-500 hover:text-blue-700 hover:scale-110 transition duration-200 ease-in-out"}
+                                            />
+                                            <Icon
+                                                name="settings"
+                                                onClick={() => onEdit(issue)}
+                                                size={12}
+                                                className={"cursor-pointer flex hover:text-blue-700 hover:scale-110 transition duration-200 ease-in-out"}
+                                            />
+                                        </div>
                                     </div>
                                 </TableCell>
                                 <TableCell>{issue.member}</TableCell>

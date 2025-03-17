@@ -6,17 +6,19 @@ import {t} from "i18next";
 const IssueCreate = ({
     onSuccess,
     onClose,
-    sprintId
+    sprintId,
+    predefinedIssue
 }: {
     onSuccess: () => void;
     onClose?: () => void;
-    sprintId: number
+    sprintId: number;
+    predefinedIssue?: Partial<CreateIssueDto>;
 }) => {
     const issue: CreateIssueDto = {
-        name: "",
-        description: "",
-        originalEstimate: 4,
-        memberId: -1 as never,
+        name: predefinedIssue?.name || "",
+        description: predefinedIssue?.description || "",
+        originalEstimate: predefinedIssue?.originalEstimate || 4,
+        memberId: predefinedIssue?.memberId || (-1 as never),
         parentIssueId: undefined as never,
         sprintId: 0,
         type: "task",
@@ -38,7 +40,7 @@ const IssueCreate = ({
     return (
         <>
             <IssueForm
-                title={t('issue.create')}
+                title={predefinedIssue ? t('issue.duplicate') : t('issue.create')}
                 issue={issue}
                 isPending={isPending}
                 onSubmit={handleSubmit}

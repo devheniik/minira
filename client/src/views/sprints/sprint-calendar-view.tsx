@@ -1,5 +1,5 @@
 import {Link, useParams} from "react-router";
-import {FC} from "react";
+import {FC, useState} from "react";
 import {useGetSprintById} from "@/services/sprint.ts";
 import {CreateIssueDto, CreateLogDto, IssueTableDto} from "@minira/server";
 import {useEntityManager} from "@/hooks/useEntityActions.ts";
@@ -12,6 +12,7 @@ import {t} from "i18next";
 import {formatDateRange} from "@/lib/date.formatter.ts";
 import IssueCreate from "@/views/issue/components/issue-create.tsx";
 import IssueUpdate from "@/views/issue/components/issue-update.tsx";
+import {useDuplicateIssue} from "@/services/issue.ts";
 
 const SprintCalendarView: FC = () => {
     const { id = -1 } = useParams<{ id: string }>();
@@ -29,10 +30,19 @@ const SprintCalendarView: FC = () => {
 
     const issueEntityManager = useEntityManager<CreateIssueDto, IssueTableDto>();
 
+    const [duplicateIssue, setDuplicateIssue] = useState<Partial<CreateIssueDto> | null>(null);
+    const duplicateIssueFn = useDuplicateIssue();
+
     const issueHandled = async () => {
         issueEntityManager.handleClose();
+        setDuplicateIssue(null);
         await refetch()
     }
+
+    const handleDuplicate = (issue: IssueTableDto) => {
+        setDuplicateIssue(duplicateIssueFn(issue));
+        issueEntityManager.handleCreate();
+    };
 
     return (
         <div>
@@ -67,6 +77,7 @@ const SprintCalendarView: FC = () => {
                 <SprintViewTable
                     data={data}
                     onEdit={issueEntityManager.handleUpdate}
+                    onDuplicate={handleDuplicate}
                     onCreate={
                         entityManager.handleCreateWithEntity as (
                             sprint: CreateLogDto,
@@ -90,12 +101,14 @@ const SprintCalendarView: FC = () => {
                         sprintId={data?.id as number}
                         onSuccess={issueHandled}
                         onClose={issueEntityManager.handleClose}
+                        predefinedIssue={duplicateIssue || undefined}
                     />
                 )
             }
             {
                 issueEntityManager.updatableEntity && (
                     <IssueUpdate
+                        sprintId={id as number}
                         issue={issueEntityManager.updatableEntity as IssueTableDto}
                         onSuccess={issueHandled}
                         onClose={issueEntityManager.handleClose}

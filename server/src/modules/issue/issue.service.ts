@@ -3,9 +3,11 @@ import { CreateIssueDto } from './dto/create-issue.dto';
 import { UpdateIssueDto } from './dto/update-issue.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { omit } from 'lodash';
+import { ResourceAccessService } from 'src/common/interfaces/resource-access.interface';
+import { Issue } from '@prisma/client';
 
 @Injectable()
-export class IssueService {
+export class IssueService implements ResourceAccessService<Issue> {
     constructor(private prisma: PrismaService) {}
 
     async create(createIssueDto: CreateIssueDto & { companyId: number }) {
@@ -32,6 +34,12 @@ export class IssueService {
         return issue;
     }
 
+    findOne(id: number) {
+        return this.prisma.issue.findUnique({
+            where: { id: id },
+        });
+    }
+
     filterByCompany(companyId: number, name?: string, type?: string) {
         return this.prisma.issue.findMany({
             where: {
@@ -52,7 +60,28 @@ export class IssueService {
         });
     }
 
-    remove(id: number) {
-        return this.prisma.issue.delete({ where: { id } });
+    async remove(id: number) {
+        return this.prisma.$transaction(async (prisma) => {
+            await prisma.timeLog.deleteMany({
+                where: { issueId: id },
+            });
+
+            await prisma.sprintTask.deleteMany({
+                where: { issueId: id },
+            });
+
+            const subIssues = await prisma.issue.findMany({
+                where: { parentIssueId: id },
+                select: { id: true },
+            });
+
+            for (const subIssue of subIssues) {
+                await this.remove(subIssue.id);
+            }
+
+            return prisma.issue.delete({
+                where: { id },
+            });
+        });
     }
 }

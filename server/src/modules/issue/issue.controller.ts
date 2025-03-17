@@ -18,6 +18,7 @@ import { User as UserEntity } from '@prisma/client';
 import { MembersService } from '../members/members.service';
 import { IssueTransformer } from './transformers/issue.transformer';
 import { plainToInstance } from 'class-transformer';
+import { IssueGuard } from './issue.guard';
 
 @Controller('issue')
 export class IssueController {
@@ -66,13 +67,13 @@ export class IssueController {
     }
 
     @Patch(':id')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, IssueGuard)
     update(@Param('id') id: string, @Body() updateIssueDto: UpdateIssueDto) {
         return this.issueService.update(+id, updateIssueDto);
     }
 
     @Delete(':id')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, IssueGuard)
     remove(@Param('id') id: string) {
         return this.issueService.remove(+id);
     }

@@ -53,12 +53,19 @@ const IssueForm = <T extends IssueFormSchemaType>({
     isPending,
     onSubmit,
     onClose,
+    extraButtons = [],
 }: {
     title?: string;
     issue: T;
     isPending: boolean;
     onSubmit: (data: T) => void;
     onClose: () => void;
+    extraButtons?: Array<{
+        text: string;
+        onClick: () => void;
+        variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+        disabled?: boolean;
+    } | null>;
 }) => {
     const { form, onOpenChange, onSubmitHandler } = useForm<
         IssueFormSchemaType,
@@ -182,9 +189,26 @@ const IssueForm = <T extends IssueFormSchemaType>({
 
 
                     <DialogFooter>
-                        <Button disabled={isPending} type="submit">
-                            {t("common.actions.save")}
-                        </Button>
+                        <div className="flex flex-fow justify-between w-full">
+                            <div className={'flex flex-row space-x-2'}>
+                                {extraButtons.map((button, index) => button && (
+                                    <Button
+                                        key={index}
+                                        onClick={button.onClick}
+                                        type="button"
+                                        variant={button.variant || 'default'}
+                                        disabled={button.disabled || isPending}
+                                    >
+                                        {button.text}
+                                    </Button>
+                                ))}
+                            </div>
+
+
+                            <Button disabled={isPending} type="submit">
+                                {t("common.actions.save")}
+                            </Button>
+                        </div>
                     </DialogFooter>
                 </ValidationForm>
             </DialogContent>

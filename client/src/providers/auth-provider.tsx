@@ -1,7 +1,6 @@
 import {ReactNode, useCallback, useEffect, useState} from "react";
 import {AuthContext} from "@/context/AuthContext.tsx";
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
 
 const TOKEN_KEY = "accessToken";
 
@@ -16,39 +15,59 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        setLoading(true);
-        const loadToken = () => {
-            const token = localStorage.getItem(TOKEN_KEY);
-
-            if (token) {
-                setAuthState({
-                    token,
-                    authenticated: !isTokenExpired(token),
-                });
-
-                if (!isTokenExpired(token)) {
-                    axios.defaults.headers.common["Authorization"] =
-                        `Bearer ${token}`;
-                }
-            }
-        };
-
-        loadToken();
-        setLoading(false);
-    }, []);
-
-    const isTokenExpired = (token: string) => {
-        if (!token) return true;
+    const validateToken = async (token: string) => {
         try {
-            const decodedToken = jwtDecode<{ exp: number }>(token);
-            const currentTime = Date.now() / 1000;
-            return decodedToken.exp < currentTime;
-        } catch (error) {
-            console.error("Error decoding token:", error);
+            await axios.get('/profile', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             return true;
+        } catch (error) {
+            console.error("Token validation failed:", error);
+            return false;
         }
     };
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                const token = localStorage.getItem(TOKEN_KEY);
+
+                if (token) {
+                    const isValid = await validateToken(token);
+
+                    setAuthState({
+                        token,
+                        authenticated: isValid,
+                    });
+
+                    if (isValid) {
+                        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+                    } else {
+                        // Clear invalid token
+                        localStorage.removeItem(TOKEN_KEY);
+                        axios.defaults.headers.common["Authorization"] = "";
+                    }
+                } else {
+                    setAuthState({
+                        token: null,
+                        authenticated: false,
+                    });
+                }
+            } catch (error) {
+                console.error("Error loading token:", error);
+                setAuthState({
+                    token: null,
+                    authenticated: false,
+                });
+            } finally {
+                setLoading(false);
+            }
+        })();
+
+    }, []);
 
     const login = useCallback(async (email: string, password: string) => {
         setLoading(true);

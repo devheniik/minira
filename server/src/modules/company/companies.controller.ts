@@ -1,4 +1,11 @@
-import { Controller, Get, Patch, Body, Query, UseGuards, NotFoundException } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    NotFoundException,
+    Patch,
+    UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CompaniesService } from './companies.service';
 import { UpdateCompanyDto } from './dto/update-company.dto';
@@ -13,9 +20,11 @@ export class CompaniesController {
     @UseGuards(JwtAuthGuard)
     async findByUser(@User() user: UserEntity) {
         const company = await this.companiesService.findOne(user.companyId);
-        
+
         if (!company) {
-            throw new NotFoundException(`Company with ID ${user.companyId} not found`);
+            throw new NotFoundException(
+                `Company with ID ${user.companyId} not found`,
+            );
         }
         return company;
     }
@@ -26,12 +35,15 @@ export class CompaniesController {
         @Body() updateCompanyDto: UpdateCompanyDto,
         @User() user: UserEntity,
     ) {
-        console.log('User from token:', user);
+        const updatedCompany = await this.companiesService.update(
+            user.companyId,
+            updateCompanyDto,
+        );
 
-        const updatedCompany = await this.companiesService.update(user.companyId, updateCompanyDto);
-        
         if (!updatedCompany) {
-            throw new NotFoundException(`Company with ID ${user.companyId} not found`);
+            throw new NotFoundException(
+                `Company with ID ${user.companyId} not found`,
+            );
         }
 
         return updatedCompany;

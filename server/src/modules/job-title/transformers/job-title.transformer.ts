@@ -6,4 +6,7 @@ export class JobTitleTransformer {
 
     @Expose()
         name: string;
+
+    @Expose()
+        description: string;
 }

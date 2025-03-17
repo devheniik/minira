@@ -1,6 +1,6 @@
 import {CreateIssueDto, IssueDto, UpdateIssueDto} from "@minira/server";
 import {serviceBuilder} from "@/lib/service.builder.ts";
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import {useState} from "react";
 
@@ -36,4 +36,29 @@ export function useSelectIssues(type: string) {
     }
 }
 
+export const useUnbindIssueFromSprint = (
+    sprintId: number,
+    onSuccess?: () => unknown | Promise<unknown>,
+    onError?: (error: unknown) => unknown | Promise<unknown>,
+) => {
+    return useMutation({
+        mutationFn: (issueIds: number[]) =>
+            axios.patch(`/sprint/detach-issues-to-sprint/${sprintId}`, { issueIds }),
+        onSuccess,
+        onError
+    });
+};
 
+export const useDuplicateIssue = () => {
+    return (issue: IssueTableDto): CreateIssueDto => {
+        return {
+            name: issue.name,
+            memberId: issue.memberId,
+            originalEstimate: issue.originalEstimate,
+            description: "",
+            parentIssueId: undefined as never,
+            sprintId: 0,
+            type: "task",
+        };
+    };
+};

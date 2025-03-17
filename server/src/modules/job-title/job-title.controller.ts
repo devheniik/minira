@@ -16,6 +16,7 @@ import { User as UserEntity } from '.prisma/client';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { plainToInstance } from 'class-transformer';
 import { JobTitleTransformer } from './transformers/job-title.transformer';
+import { JobTitleGuard } from './job-title.guard';
 
 @Controller('job-title')
 export class JobTitleController {
@@ -44,13 +45,13 @@ export class JobTitleController {
     }
 
     @Get(':id')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, JobTitleGuard)
     findOne(@Param('id') id: string) {
         return this.jobTitleService.findOne(+id);
     }
 
     @Patch(':id')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, JobTitleGuard)    
     update(
         @Param('id') id: string,
         @Body() updateJobTitleDto: UpdateJobTitleDto,
@@ -59,7 +60,7 @@ export class JobTitleController {
     }
 
     @Delete(':id')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, JobTitleGuard)
     remove(@Param('id') id: string) {
         return this.jobTitleService.remove(+id);
     }

@@ -3,9 +3,10 @@ import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { Member } from '@prisma/client';
+import { ResourceAccessService } from 'src/common/interfaces/resource-access.interface';
 
 @Injectable()
-export class MembersService {
+export class MembersService implements ResourceAccessService<Member> {
     constructor(private prisma: PrismaService) {}
 
     create(createMemberDto: CreateMemberDto & { companyId: number }) {
