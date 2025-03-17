@@ -9,10 +9,3 @@ export const{
     useUpdateEntry: useUpdateJobTitle
 } = serviceBuilder<JobTitleDto, CreateJobTitleDto, UpdateJobTitleDto>('job-title')
 
-console.log({
-    useGetAllJobTitles,
-    useGetJobTitleById,
-    useDeleteJobTitle,
-    useCreateJobTitle,
-    useUpdateJobTitle
-})

@@ -9,10 +9,3 @@ export const{
     useUpdateEntry: useUpdateMember
 } = serviceBuilder<MemberDto, CreateMemberDto, UpdateMemberDto>('member')
 
-console.log({
-    useGetAllMembers,
-    useGetMemberById,
-    useDeleteMember,
-    useCreateMember,
-    useUpdateMember
-})
