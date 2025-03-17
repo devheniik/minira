@@ -21,9 +21,12 @@ const isCurrentDate = (
     issue: { table: { [key: string]: unknown } },
     idx: number,
 ) => {
+
+    const issueDay = parseInt(Object.keys(issue.table)[idx].slice(-2), 10);
+
     return (
         new Date().getDate() ==
-        new Date(Object.keys(issue.table)[idx]).getDate()
+        issueDay
     );
 };
 
